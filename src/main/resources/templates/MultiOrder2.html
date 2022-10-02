@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ashion Template">
+    <meta name="keywords" content="Ashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ashion | Template</title>
+
+</head>
+
+<body >
+<!-- Button trigger modal -->
+<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">-->
+<!--    아이디 찾기-->
+<!--</button>-->
+
+<!-- Modal -->
+<div class="modal fade" id="sampleModalPopup" role="dialog" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-width1000 modal-dialog-height800">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h5 class="modal-title" id="exampleModalLabel">주문 정보입력</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="addressInfo_input_div addressInfo_input_div_2" >
+                <div class="column">
+                    <div class="col-lg-12">
+                        <form action="insertOrder2" method="POST" class="checkout__form" id="form2" name="form2">
+                            <div class="checkout__form__input" >
+
+                                <h5 th:text="'주문자 :  '+ ${member?.mName} + ' 님'"></h5>
+                                <th:block th:each="list, i:${list}">
+                                    <th:block th:if="${i.index} < 1">
+                                        <input type="hidden" name="pdCode" th:value="${list?.pdCode}">
+                                    </th:block>
+                                </th:block>
+                                <input type="hidden" name="mId" th:value="${session.member?.mId}">
+                                <p>이름 <span>*</span></p>
+                                <input type="text" name="orName" th:value="${member?.mName}" style="color: #000000;font-weight : bold;" >
+                                <p>이메일 <span>*</span></p>
+                                <input type="email" name="orEmail" th:value="${member?.mEmail}" style="color: #000000;font-weight : bold;">
+                                <p>전화번호 <span>*</span></p>
+                                <input type="text" name="orPhone" th:value="${member?.mPhone}" style="color: #000000;font-weight : bold;">
+
+                                <p>배송지 주소 <span>*</span></p>
+                                <input type="text" id="sample6_postcode1" placeholder="우편번호를 입력하세요" name="orAddr" th:value = "${member?.mAddr}" style="color: #000000;font-weight : bold;">
+                            </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div  class="checkout__order">
+                            <h5>주문 상품</h5>
+                            <div class="checkout__order__product">
+
+                                <ul>
+                                    <li>
+                                        <span class="top__text">제품 정보</span>
+                                        <span class="top__text__right">가격</span>
+                                    </li>
+                                </ul>
+
+                                <ul th:each="list, i:${list}">
+                                    <li>
+                                        </br>
+                                        <span  class="top__text__left" data-th-text="|${list.pdName} ${list.pdQty} 개 - [${#numbers.formatInteger(list?.pdPrice, 3, 'COMMA')+'원'}]|"></span>
+                                    </li>
+                                </ul>
+                                </br>
+                                <ul>
+                                    <li><img style = "width:240px; height:200px;" >
+                                        <span  style ="margin-top:80px;">
+
+                                        </span>
+                                    </li>
+                                </ul>
+
+                            </div>
+                            <div class="checkout__order__total">
+                                <ul th:each="list, i:${list}">
+                                    <!--                                        수량 : <input type=hidden  id="pdPrice1" name="pdPrice" >-->
+                                    <!--                                        <input type="text"  id="orQty1" name="orQty" value="1" size="5" onchange="change();" style = "height:30px;">-->
+                                    <!--                                        <input type="button"-->
+                                    <!--                                               style="background-color : #CA1515; border : none; color : white; line-height:30px;"-->
+                                    <!--                                               value=" + " onclick="add();">-->
+                                    <!--                                        <input type="button"-->
+                                    <!--                                               style="background-color : #CA1515; border : none; color : white; line-height:30px;"-->
+                                    <!--                                               value=" - " onclick="del();"><br>-->
+
+
+                                    <th:block th:if="${i.index} < 1">
+                                        총 결제금액 : <span style="font-weight: bold; " data-th-text="${#numbers.formatInteger(list?.pdTotalPrice, 3, 'COMMA')+'원'}"> </span>
+                                        <input type="hidden" name="orPrice" size="11" readonly style = "height: 30px; padding:5px;" th:value="${list?.pdTotalPrice}">
+                                        <input type="hidden"  id="orQty1" name="orQty" th:value="${list?.pdQty}" size="5" onchange="change();" style = "height:30px;">
+                                    </th:block>
+                                </ul>
+                            </div>
+                            <div class="checkout__order__widget">
+                                사이트 이용 약관 동의(필수)
+                                <input type="checkbox" id="checkAgree2">
+                                <span class="checkmark"></span>
+
+                                <p>본인은 만 14세 이상이며, 주문 내용을 확인하였습니다.</p>
+                                <p>(주)사이트 이름 는 통신판매중개자로 거래 당사자가 아니므로,
+                                    판매자가 등록한 상품정보 및 거래 등에 대해 책임을 지지 않습니다.</p>
+                                <p>(단, ㈜사이트 이름 가 판매자로 등록 판매한 상품은 판매자로서 책임을 부담합니다).</p>
+                                <!--                                    <button id="iamportPayment2" class="site-btn" type="button" style = "height: 45px; padding:5px;">결제테스트</button>-->
+                                <button class="site-btn" type="submit" style = "height: 45px; padding:5px;">결제테스트</button>
+                            </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" name="button" class="btn btn-color2" data-dismiss="modal" >닫기</button>
+        </div>
+    </div>
+</div>
+
+</body>
+<!--<script>-->
+<!--    window.onload = function() {-->
+<!--    if(!window.location.hash) {-->
+<!--        window.location = window.location + '#loaded';-->
+<!--        window.location.reload();-->
+<!--    }-->
+<!--}-->
+
+<!--</script>-->
+
+<script>
+
+</script>
+
+
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="col-lg-2 col-md-3" style="clear: both; text-align:left;">
+  <div class="shop__sidebar">
+    <div class="sidebar__categories">
+      <div class="section-title">
+        <h4>내 정보</h4>
+      </div>
+      <div class="categories__accordion">
+        <div class="accordion" id="accordionExample">
+          <div class="card">
+            <div class="card-heading active">
+              <a data-toggle="collapse" data-target="#collapseOne">회원정보</a>
+            </div>
+            <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
+              <div class="card-body">
+                <ul>
+                  <li><a th:href="@{'/member/'+${session.member?.mId}}">내 정보</a></li>
+                  <li><a th:href="@{'/member/modify/'+${session.member?.mId}}">내 정보 수정</a></li>
+                  <li><a th:href="@{'/member/delete/'+${session.member?.mId}}">회원 탈퇴</a></li>
+                  <li><a th:href="@{'/member/wish/'+${session.member?.mId}}">찜 목록</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div  th:if = "${session.member?.mId  ne 'admin'}" class="card">
+            <div class="card-heading">
+              <a data-toggle="collapse" data-target="#collapseTwo">주문정보</a>
+            </div>
+            <div id="collapseTwo" class="collapse" data-parent="#accordionExample">
+              <div class="card-body">
+                <ul>
+                  <li><a  th:href="@{/order/PD0002/OrderList(mId=${session.member?.mId})}">주문목록</a></li>
+                  <li><a th:href="@{/order/cancelList(mId=${session.member?.mId})}">취소내역</a></li>
+                  <li><a th:href="@{/order/orderQnAList(mId=${session.member?.mId})}">1:1문의</a></li></br>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="card" th:if="${session.member?.mId == 'admin'}">
+            <div class="card-heading">
+              <a data-toggle="collapse" data-target="#collapseThree">회원관리</a>
+            </div>
+            <div id="collapseThree" class="collapse" data-parent="#accordionExample">
+              <div class="card-body">
+                <ul>
+                  <li><a th:href="@{/members}">회원 목록</a></li>
+                  <li><a th:href="@{/members/dlist}">탈퇴회원 목록</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" th:if="${session.member?.mId eq 'admin'}">
+            <div class="card-heading">
+              <a data-toggle="collapse" data-target="#collapseFour">주문 관리</a>
+            </div>
+            <div id="collapseFour" class="collapse" data-parent="#accordionExample">
+              <div class="card-body">
+                <ul>
+                  <li><a th:href="@{/order/adminQnAList}">1:1문의 관리</a></li>
+                  <li><a th:href="@{/order/PD0002/adminCancelList}">취소처리</a></li>
+                  <li><a th:href="@{/order/PD0002/adminOrderList}">주문 확인</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+</body>
+</html>

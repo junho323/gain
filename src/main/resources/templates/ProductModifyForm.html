@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="Ashion Template">
+	<meta name="keywords" content="Ashion, unica, creative, html">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Ashion | Template</title>
+
+	<!-- Google Font -->
+	<link
+			href="https://fonts.googleapis.com/css2?family=Cookie&display=swap"
+			rel="stylesheet">
+	<link
+			href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+			rel="stylesheet">
+
+	<!-- Css Styles -->
+	<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/font-awesome.min.css"
+		  type="text/css">
+	<link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+	<link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+	<link rel="stylesheet" href="/css/owl.carousel.min.css"
+		  type="text/css">
+	<link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/style.css" type="text/css">
+	<link rel="stylesheet" href="/css/regist-form.css">
+</head>
+
+<body>
+<content class="regist-frame"> <th:block
+		th:include="./header"></th:block> <!-- Checkout Section Begin -->
+	<p th:text="${session.member?.mId}" style="visibility: hidden;" id="id-check"></p>
+	<section class="checkout spad">
+		<div class="container">
+			<div class="row"></div>
+			<form th:action="@{'/product/Modify/'+${modi.pdCode}}"  th:method="post"
+				   class="checkout__form">
+				<div class="row">
+					<div class="col-lg-12">
+						<h5 style="text-align: center;">삼품등록</h5>
+						<div class="row" style="justify-content: center;">
+							<input type="hidden" name="mId" th:value="${modi?.pdCode}">
+							<div class="col-lg-7">
+								<div class="checkout__form__input">
+									<p>
+										상품명<span>*</span>
+									</p>
+									<input  name="pdName" maxlength='50' size="15" th:value="${modi?.pdName}">
+
+									<span></span>
+								</div>
+								<div class="checkout__form__input">
+									<p>
+										상품가격 <span>*</span>
+									</p>
+									<input type="text" name="pdPrice" maxlength='15' th:value="${modi?.pdPrice}"
+										   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+								</div>
+								<div class="checkout__form__input">
+									<p>
+										상품수량 <span>*</span>
+									</p>
+									<input type="text" name="pdQty" maxlength='15' th:value="${modi?.pdQty}"
+										   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+									<span></span>
+								</div>
+
+								<div class="checkout__form__input">
+									<p>
+										상품내용<span>*</span>
+									</p>
+									<textarea name="pdDetail" rows="20" cols="40"
+											  class="form-control" maxlength='500'
+											  style="width: 500px">[[${modi?.pdDetail}]]</textarea>
+								</div>
+
+								<div class="checkout__form__input">
+									<p>
+										카테고리<span> *</span>
+									</p>
+
+									<select name="questType" id="select1" onChange="chnQnaType(this.value)" >
+										<option value="1">진열장/책장</option>
+										<option value="2">침대/소파</option>
+										<option value="3">테이블/식탁/책상</option>
+										<option value="4">의자</option>
+										<option value="5">인테리어</option>
+									</select>
+									<select id="schQnaType" name="pdCategory"   style="width:120px; display:none;" >
+									</select>
+
+								</div>
+
+
+
+
+
+								</div>
+
+								<div class="col-lg-7">
+
+
+									<br />
+									<button type="submit" class="site-btn" id="regist-button">상품수정</button>
+
+								</div>
+
+						</div>
+					</div>
+			</div>
+
+
+			</form>
+		</div>
+
+	</section>
+	<script type="text/javascript">
+$(function(){
+
+    // 질문유형을 선택한다.
+    chnQnaType('1' , '매거진랙');
+});
+
+function chnQnaType(type , select) {
+
+    $('#schQnaType').empty();
+
+    if(type == '1') {
+        $('#schQnaType').append("<option value='매거진랙' >매거진랙</option>'");
+        $('#schQnaType').append("<option value='장식장' >장식장</option>'");
+        $('#schQnaType').append("<option value='책장' >책장</option>'");
+    } else if (type == '2') {
+        $('#schQnaType').append("<option value='침대' >침대</option>'");
+        $('#schQnaType').append("<option value='일반소파' >일반소파</option>'");
+        $('#schQnaType').append("<option value='좌식소파' >좌식소파</option>'");
+        $('#schQnaType').append("<option value='소파베드' >소파베드</option>'");
+        $('#schQnaType').append("<option value='소파스툴' >소파스툴</option>'");
+        $('#schQnaType').append("<option value='리클라이너' >리클라이너</option>'");
+    } else if ( type == '3') {
+        $('#schQnaType').append("<option value='사이드테이블' >사이드테이블</option>'");
+        $('#schQnaType').append("<option value='좌식테이블' >좌식테이블</option>'");
+        $('#schQnaType').append("<option value='소파테이블' >소파테이블</option>'");
+        $('#schQnaType').append("<option value='식탁' >식탁</option>'");
+        $('#schQnaType').append("<option value='책상' >책상</option>'");
+    } else if (type == '4') {
+        $('#schQnaType').append("<option value='흔들의자' >흔들의자</option>'");
+        $('#schQnaType').append("<option value='게이밍의자' >게이밍의자</option>'");
+        $('#schQnaType').append("<option value='사무용의자' >사무용의자</option>'");
+          $('#schQnaType').append("<option value='인테리어의자' >인테리어의자</option>'");
+        $('#schQnaType').append("<option value='안락의자' >안락의자</option>'");
+    } else if ( type == '5') {
+        $('#schQnaType').append("<option value='인테리어' >인테리어</option>'");
+
+    }
+    document.getElementById("schQnaType").style.display = "";
+
+    if ($.trim(select) != "") {
+        $('#select1').val(type);
+        $('#schQnaType').val(select);
+    }
+}
+</script>
+
+
+	</script>
+
+
+	<!-- Checkout Section End --> <!-- Js Plugins --> <script
+			src="/js/jquery-3.3.1.min.js"></script> <script
+			src="/js/bootstrap.min.js"></script> <script
+			src="/js/jquery.magnific-popup.min.js"></script> <script
+			src="/js/jquery-ui.min.js"></script> <script
+			src="/js/mixitup.min.js"></script> <script
+			src="/js/jquery.countdown.min.js"></script> <script
+			src="/js/jquery.slicknav.js"></script> <script
+			src="/js/owl.carousel.min.js"></script> <script
+			src="/js/jquery.nicescroll.min.js"></script> <script
+			src="/js/main.js"></script> <script defer src="/js/addr.js"></script>
+	<script
+			src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+			integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+			crossorigin="anonymous"></script> <script defer src="../js/regist.js"></script>
+	<script defer src="/js/adminCheck.js"></script>
+	<th:block th:include="./footer"></th:block> </content>
+
+
+</body>
+
+
+</html>
+
+

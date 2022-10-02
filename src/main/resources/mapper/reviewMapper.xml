@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iwgh.gain.dao.ReviewDAO">
+
+    <insert id="reviewWrite" parameterType="hashMap">
+        INSERT INTO REVIEW VALUES('RV'||LPAD(RVCODE_SEQ.NEXTVAL,8,0), #{pdCode}, #{mId}, #{review}, SYSDATE, #{starScore})
+    </insert>
+
+    <select id="reviewList" parameterType="String" resultType="com.iwgh.gain.dto.ReviewDTO">
+        SELECT RVNUM, MPROFILENAME, R.MID, MNAME, REVIEW, RVDATE, STARSCORE, R.PDCODE FROM MEMBER M, PRODUCT P , REVIEW R WHERE M.MID = R.MID AND R.PDCODE = P.PDCODE AND P.PDCODE = #{pdCode} GROUP BY RVNUM, MPROFILENAME, R.MID ,MNAME, REVIEW, RVDATE, STARSCORE, R.PDCODE
+    </select>
+
+    <delete id="reviewDelete" parameterType="String">
+        DELETE FROM REVIEW WHERE RVNUM = #{rvNum}
+    </delete>
+
+</mapper>
+
+        <!-- foreach -->

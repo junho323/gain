@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="Ashion Template">
+	<meta name="keywords" content="Ashion, unica, creative, html">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Ashion | Template</title>
+
+	<!-- Google Font -->
+	<link
+			href="https://fonts.googleapis.com/css2?family=Cookie&display=swap"
+			rel="stylesheet">
+	<link
+			href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+			rel="stylesheet">
+
+	<!-- Css Styles -->
+	<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="../css/font-awesome.min.css"
+		  type="text/css">
+	<link rel="stylesheet" href="../css/elegant-icons.css" type="text/css">
+	<link rel="stylesheet" href="../css/jquery-ui.min.css" type="text/css">
+	<link rel="stylesheet" href="../css/magnific-popup.css" type="text/css">
+	<link rel="stylesheet" href="../css/owl.carousel.min.css"
+		  type="text/css">
+	<link rel="stylesheet" href="../css/slicknav.min.css" type="text/css">
+	<link rel="stylesheet" href="../css/style.css" type="text/css">
+	<link rel="stylesheet" href="../css/regist-form.css">
+</head>
+
+<body th:onload="wishLikeState2([[${session.member?.mId}]])">
+
+<p th:text="${session.member?.mId}" style="visibility:hidden;" id="session-id"></p>
+<content class="regist-frame">
+	<th:block th:include="./header"></th:block> <!-- Breadcrumb Begin -->
+	<div class="breadcrumb-option">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="breadcrumb__links">
+						<a href="/"><i class="fa fa-home"></i> Home</a> <span>상품목록</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<section class="shop spad">
+		<div class="container">
+			<div class="row">
+				<th:block th:include="./Sidebar"></th:block>
+
+				<div class="col-lg-9 col-md-9">
+					<div class="row">
+						<div class="col-lg-4 col-md-6" th:each="Sofa:${ProductSofa}">
+							<div class="product__item">
+								<div class="product__item__pic set-bg"
+									 data-setbg="@{/upload/{aa}(aa=${Sofa.pdImage1})}">
+									<img th:src="@{/upload/{aa}(aa=${Sofa.pdImage1})}">
+
+									<ul class="product__hover">
+										<li><a th:href="@{/upload/{aa}(aa=${Sofa.pdImage1})}"
+											   class="image-popup"><span class="arrow_expand"></span></a></li>
+										<li>
+											<a th:mId="${session.member?.mId}" th:pdCode="${Sofa.pdCode}"
+											   th:onclick="wishLike(this.getAttribute('mId'), this.getAttribute('pdCode'), this)"
+											   id="heart-wish">
+												<p th:text="${Sofa.pdCode}" style="display: none;"></p>
+												<span class="icon_heart_alt"></span>
+											</a>
+										</li>
+
+									</ul>
+								</div>
+								<div class="product__item__text">
+									<h6>
+										<a th:href="@{'/product/'+${Sofa.pdCode}}"
+										   th:text="${Sofa.pdName}" id="pdcode-get-text"></a>
+									</h6>
+									<div class="rating">
+										<span class='star'>★★★★★</span> <span
+											th:width="${Sofa.pdStarpoint}">
+											[[${Sofa.pdStarpoint}]] </span>
+									</div>
+									<div class="product__price"
+										 data-th-text="${#numbers.formatInteger(Sofa.pdPrice, 3, 'COMMA') + '원'}"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<ul class="pagination justify-content-center">
+
+		<li th:if="${paging.page <= 1}" class="page-link"><p
+				tabindex="-1" aria-disabled="true" class="page-item disabled">이전
+		</p></li>
+		<li th:if="${paging.page > 1}" class="page-link"><a
+				th:href="@{'/product/Sofa?page='+${paging.page-1}+'&limit='+${paging.limit}}">이전
+		</a></li>
+
+		<li
+				th:each="i : ${#numbers.sequence(paging.startPage,paging.endPage)}"
+				class="page-link"><a
+				th:href="@{'/product/Sofa?page='+${i}+'&limit='+${paging.limit}}">[[${i}]]</a>
+
+		</li>
+
+
+		<li th:if="${paging.page < paging.maxPage}" class="page-link"><a
+				th:href="@{'/product/Sofa?page='+${paging.page+1}+'&limit='+${paging.limit}}">다음
+		</a></li>
+		<li th:if="${paging.page >= paging.maxPage}" class="page-link "><p
+				tabindex="+1" aria-disabled="true" class="page-item disabled">다음
+		</p></li>
+	</ul>
+
+
+	<!-- Instagram End --> <!-- Js Plugins -->
+	<script
+			src="../js/jquery-3.3.1.min.js"></script>
+	<script
+			src="../js/bootstrap.min.js"></script>
+	<script
+			src="../js/jquery.magnific-popup.min.js"></script>
+	<script
+			src="../js/jquery-ui.min.js"></script>
+	<script
+			src="../js/mixitup.min.js"></script>
+	<script
+			src="../js/jquery.countdown.min.js"></script>
+	<script
+			src="../js/jquery.slicknav.js"></script>
+	<script
+			src="../js/owl.carousel.min.js"></script>
+	<script
+			src="../js/jquery.nicescroll.min.js"></script>
+	<script
+			src="../js/main.js"></script>
+	<script defer src="../js/addr.js"></script>
+	<script
+			src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+			integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+			crossorigin="anonymous"></script>
+	<script defer src="../js/regist.js"></script>
+	<script defer src="../js/wishLike.js"></script>
+
+	<th:block th:include="./footer"></th:block>
+</content>
+</body>
+
+
+</html>

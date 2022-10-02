@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iwgh.gain.dao.QNADAO">
+
+    <insert id="QuestionsPost"
+            parameterType="com.iwgh.gain.dto.QNADTO">
+        INSERT INTO QNA VALUES(QANUM_SEQ.NEXTVAL, #{qaWriter}, #{qaTitle}, #{qaContent},#{qaCategory})
+    </insert>
+    <select id="QuestionsList" resultType="com.iwgh.gain.dto.QNADTO">
+        SELECT * FROM QNA ORDER BY QANUM DESC
+    </select>
+    <select id="qView" parameterType="int" resultType="com.iwgh.gain.dto.QNADTO">
+    SELECT * FROM QNA WHERE QANUM = #{qaNum}
+    </select>
+    <update id="QuestionsModify" parameterType="com.iwgh.gain.dto.QNADTO">
+        UPDATE QNA SET QAWRITER=#{qaWriter}, QATITLE=#{qaTitle}, QACONTENT=#{qaContent}, QACATEGORY=#{qaCategory}
+        WHERE QANUM = #{qaNum}
+    </update>
+    <delete id="QuestionsDelete" parameterType="int">
+        DELETE FROM QNA WHERE QANUM = #{qaNum}
+    </delete>
+</mapper>

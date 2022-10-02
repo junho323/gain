@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ashion Template">
+    <meta name="keywords" content="Ashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ashion | Template</title>
+
+    <!-- Google Font -->
+    <link
+            href="https://fonts.googleapis.com/css2?family=Cookie&display=swap"
+            rel="stylesheet">
+    <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+            rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css"
+          type="text/css">
+    <link rel="stylesheet" href="../css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="../css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="../css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="../css/owl.carousel.min.css"
+          type="text/css">
+    <link rel="stylesheet" href="../css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="../css/style.css" type="text/css">
+    <link rel="stylesheet" href="../css/regist-form.css">
+    <link rel="stylesheet" href="/css/star.css" type="text/css">
+</head>
+
+<body th:onload="wishLikeState2([[${session.member?.mId}]])">
+
+<p th:text="${session.member?.mId}" style="visibility:hidden;" id="session-id"></p>
+<content class="regist-frame">
+    <th:block th:include="./header"></th:block> <!-- Breadcrumb Begin -->
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="/"><i class="fa fa-home"></i> Home</a> <span>상품목록</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="shop spad">
+        <div class="container">
+            <div class="row">
+                <th:block th:include="./Sidebar"></th:block>
+
+                <div class="col-lg-9 col-md-9">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6" th:each="list:${ProductList}">
+                            <div class="product__item">
+                                <div class="product__item__pic set-bg"
+                                     data-setbg="@{/upload/{aa}(aa=${list.pdImage1})}"  width="270px" height="360px">
+                                    <img th:src="@{/upload/{aa}(aa=${list.pdImage1})}" width="270px" height="360px"  >
+<!--                                    <div class="label new">AR</div>-->
+                                    <ul class="product__hover">
+                                        <li><a th:href="@{/upload/{aa}(aa=${list.pdImage1})}"
+                                               class="image-popup"><span class="arrow_expand"></span></a></li>
+                                        <li>
+                                            <a th:mId="${session.member?.mId}" th:pdCode="${list.pdCode}"
+                                               th:onclick="wishLike(this.getAttribute('mId'), this.getAttribute('pdCode'), this)"
+                                               id="heart-wish">
+                                                <p th:text="${list.pdCode}" style="display: none;"></p>
+                                                <span class="icon_heart_alt"></span>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <div class="product__item__text">
+                                    <h6>
+                                        <a th:href="@{'/product/'+${list.pdCode}}"
+                                           th:text="${list.pdName}" id="pdcode-get-text"></a>
+                                    </h6>
+                                    <div class="rating">
+                                        <span th:if="${list.pdStarpoint eq 0}">0</span>
+                                        <span th:if="${list.pdStarpoint ne 0}">[[${list.pdStarpoint}]]</span>
+
+                                        <span class='star' style='font-size:15px'>★★★★★
+                                            <span id="draw-star-avg" th:style="${'width:'+list.pdStarpoint*10*2}+'%'">
+											 ★★★★★</span>
+                                        </span>
+
+
+
+
+<!--                                        <span class='star' style='font-size:15px'>★★★★★-->
+<!--                                            <span  id="draw-star-avg"> ★★★★★</span>-->
+<!--                                        </span>-->
+<!--                                        <span id="star-avg"></span>-->
+                                    </div>
+                                    <div class="product__price"
+                                         data-th-text="${#numbers.formatInteger(list.pdPrice, 3, 'COMMA') + '원'}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <ul class="pagination justify-content-center">
+        <li th:if="${paging.page <= 1}" class="page-item"><a style="color:#fff; font-weight:bold; background:#333;  margin-left:4px;"
+                tabindex="-1" aria-disabled="true" class="page-link disabled">이전
+        </a></li>
+        <li th:if="${paging.page > 1}" class="page-item"><a class="page-link" style="border:1px solid #f7f7f7; color:#898989;background:#f7f7f7; margin-left:4px;"
+                th:href="@{'/product?page='+${paging.page-1}+'&limit='+${paging.limit}}">이전
+        </a></li>
+        <li th:each="i : ${#numbers.sequence(paging.startPage,paging.endPage)}"
+                class="page-item">
+            <a th:if="${paging.page eq i}" class="page-link" style="color:#fff; font-weight:bold; background:#333; margin-left:4px;">
+                [[${i}]]
+            </a>
+            <a th:if="${paging.page ne i}"th:href="@{'/product?page='+${i}+'&limit='+${paging.limit}}" style="border:1px solid #f7f7f7; color:#898989;background:#f7f7f7;  margin-left:4px;" class="page-link">[[${i}]]</a>
+        </li>
+        <li th:if="${paging.page < paging.maxPage}" class="page-item" ><a class="page-link" style="border:1px solid #f7f7f7; color:#898989;background:#f7f7f7;  margin-left:4px;"
+                th:href="@{'/product?page='+${paging.page+1}+'&limit='+${paging.limit}}">다음
+        </a></li>
+        <li th:if="${paging.page >= paging.maxPage}" class="page-item  "><a style="color:#fff; font-weight:bold; background:#333;  margin-left:4px;"
+                tabindex="+1" aria-disabled="true" class="page-link disabled">다음
+        </a></li>
+    </ul>
+
+
+    <!-- Instagram End --> <!-- Js Plugins -->
+    <script
+            src="../js/jquery-3.3.1.min.js"></script>
+    <script
+            src="../js/bootstrap.min.js"></script>
+    <script
+            src="../js/jquery.magnific-popup.min.js"></script>
+    <script
+            src="../js/jquery-ui.min.js"></script>
+    <script
+            src="../js/mixitup.min.js"></script>
+    <script
+            src="../js/jquery.countdown.min.js"></script>
+    <script
+            src="../js/jquery.slicknav.js"></script>
+    <script
+            src="../js/owl.carousel.min.js"></script>
+    <script
+            src="../js/jquery.nicescroll.min.js"></script>
+    <script
+            src="../js/main.js"></script>
+    <script defer src="../js/addr.js"></script>
+    <script
+            src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+<!--    <script defer src="../js/regist.js"></script>-->
+<!--    <script defer src="../js/wishLike.js"></script>-->
+    <script defer src="/js/reviewList.js"></script>
+
+    <th:block th:include="./footer"></th:block>
+</content>
+</body>
+
+
+</html>

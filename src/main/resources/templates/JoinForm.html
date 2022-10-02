@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ashion Template">
+    <meta name="keywords" content="Ashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ashion | Template</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="../css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="../css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="../css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="../css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="../css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="../css/style.css" type="text/css">
+    <link rel="stylesheet" href="../css/regist-form.css">
+</head>
+
+<body>
+<content class="regist-frame">
+<th:block th:include="./header"></th:block>
+
+
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="/"><i class="fa fa-home"></i> 홈</a>
+                    <span>회원 가입</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Checkout Section Begin -->
+<section class="checkout spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h6 class="coupon__link"><span class="icon_tag_alt"></span>이미 회원이신가요??  <a href="../member/login-form"><u>로그인</u></a></h6>
+            </div>
+        </div>
+        <form action="../member/join" th:method="post" enctype="multipart/form-data" class="checkout__form">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h5 style="text-align: center;">회원가입</h5>
+                    <div class="row" style="justify-content: center;">
+
+                        <div class="col-lg-7">
+                            <div class="checkout__form__input">
+                                <p>아이디 <span>*</span></p>
+                                <input type="text" name="mId" id="user-id" required maxlength="10" size="15"
+                                       onkeyup="this.value=this.value.replace(/[^a-z0-9-_]/g,'');">
+                                <span></span>
+                            </div>
+                            <div class="checkout__form__input">
+                                <p>비밀번호 <span>*</span></p>
+                                <input type="password" name="mPw" id="password1" required maxlength="25">
+                            </div>
+                            <div class="checkout__form__input">
+                                <p>비밀번호 확인 <span>*</span></p>
+                                <input type="password" id="password2" required maxlength="25">
+                                <span></span>
+                            </div>
+                            <div class="checkout__form__input">
+                                <p>이름 <span>*</span></p>
+                                <input type="text" name="mName" required maxlength="10">
+                            </div>
+                            <div class="checkout__form__input">
+                                <p>생년월일 <span>*</span></p>
+                                <input type="date" name="mBirth" required>
+                            </div>
+                            <div class="checkout__form__input">
+                                <p>성별<span> *</span></p>
+                                <span style="font-size: 15px;">남자  <input type="radio" name="mGender" value="남" style="width:25px;height:15px;border:1px;" required></span>
+                                <span style="font-size: 15px;">여자  <input type="radio" name="mGender" value="여" style="width:25px;height:15px;border:1px;" required></span>
+
+                            </div>
+                            <div class="checkout__form__input">
+                                <p>전화번호 <span>*</span></p>
+                                <input type="text" name="mPhone" id="user-phone" required maxlength="13" onkeyup="this.value=this.value.replace(/[^0-9-]/g,'')";>
+                                <span></span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-7">
+<!--                            <div class="checkout__form__input">-->
+                                <p style="color: #444444; margin-bottom: 10px">주소 <span style="color: #ca1515">*</span></p>
+                                <div class="form-group">
+<!--                                    <label for="website" class="w-100">-->
+                                        <input type="text" id="sample6_postcode" placeholder="우편번호"
+                                               name="addr1" required>
+                                        <button type="button" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
+                                        <br/>
+                                         <input type="text" id="sample6_address"
+                                                    placeholder="주소" name="addr2" required><br> <input
+                                                type="text" id="sample6_detailAddress" placeholder="상세주소"
+                                                name="addr3" required>
+<!--                                    </label>-->
+                                </div>
+<!--                                <input type="text" name="mAddr">-->
+<!--                            </div>-->
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="checkout__form__input">
+                                <p style="color: #444444; margin-bottom: 10px">이메일 <span style="color: #ca1515">*</span></p>
+                                <input type="email" name="mEmail" id="user-email" required>
+                                <span></span><br/>
+<!--                                <button id="check-email" type="button">중복확인</button>-->
+                                <span id="inputUUID"><button id="mEmail" type="button">인증번호 발송</button></span>
+                            </div>
+
+                            <div>
+                                <p style="color: #444444; margin-bottom: 10px; margin-top: 10px">프로필 이미지 <span style="color: #ca1515">*</span></p>
+                                <input type="file" name="mProfile" accept=" image/*" id="profile-img">
+                            </div>
+
+
+
+                        </div>
+                        <!-- <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="checkout__form__input">
+                                <p>Phone <span>*</span></p>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="checkout__form__input">
+                                <p>Email <span>*</span></p>
+                                <input type="text">
+                            </div>
+                        </div> -->
+                        <div class="col-lg-7">
+                            <div class="checkout__form__checkbox">
+<!--                                <hr/>-->
+<!--                                <p>Create am acount by entering the information below. If you are a returing-->
+<!--                                    customer login at the <br />top of the page</p>-->
+<!--                                <br/>-->
+<!--                                <label for="acc">-->
+<!--                                    약관동의-->
+<!--                                    <input type="checkbox" id="acc">-->
+<!--                                    <span class="checkmark"></span>-->
+<!--                                </label>-->
+<!--                                <hr/>-->
+
+
+
+<!--                                <div class="checkout__form__checkbox">-->
+<!--                                    <label for="note">-->
+<!--                                        약관동의-->
+<!--                                        <input type="checkbox" id="note">-->
+<!--                                        <span class="checkmark"></span>-->
+<!--                                    </label>-->
+<!--                                </div>-->
+
+                            </div>
+                            <br/>
+                            <button type="submit" class="site-btn" id="regist-button">회원가입</button>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+<!-- Checkout Section End -->
+    <!-- Js Plugins -->
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.magnific-popup.min.js"></script>
+    <script src="../js/jquery-ui.min.js"></script>
+    <script src="../js/mixitup.min.js"></script>
+    <script src="../js/jquery.countdown.min.js"></script>
+    <script src="../js/jquery.slicknav.js"></script>
+    <script src="../js/owl.carousel.min.js"></script>
+    <script src="../js/jquery.nicescroll.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script defer src="../js/addr.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script defer src="../js/regist.js"></script>
+
+    <th:block th:include="./footer"></th:block>
+</content>
+
+
+</body>
+
+
+</html>

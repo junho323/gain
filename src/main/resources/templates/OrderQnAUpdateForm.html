@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ashion Template">
+    <meta name="keywords" content="Ashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ashion | Template</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/OrderList.css" type="text/css">
+    <style>
+    ul {list-style-type: none; text-align : center }
+    li { margin : 5px; display : inline-block }
+
+    </style>
+
+<body>
+<content class="regist-frame">
+    <th:block th:include="./header"></th:block>
+
+
+    <!-- Breadcrumb Begin -->
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                        <span>Shopping cart</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+    <!-- Shop Cart Section Begin -->
+
+
+    <section class="checkout spad">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <h6 class="coupon__link"><span class="icon_tag_alt"></span> <a
+                            href="/"><u>홈으로 돌아가기</u></a></h6>
+                </div>
+                <!-- sidebar -->
+                <th:block th:include="./MemberLeftSide"></th:block>
+
+
+                <!--        -->
+                <div class="shop__cart__table col-lg-8"
+                     style="margin : auto; border : 3px solid #CA1515; padding : 15px; ">
+                    <table id="products">
+                        <form action="@{'/order/orderQnAModify'+${modi?.qaNum}}"id = "form" method="GET" enctype="multipart/form-data">
+                            <input type="hidden" name="rowPerPage" value="5">
+                            <div class="row" >
+                                <!--                        -->
+
+                                <div class="col-lg-8">
+                                    <tr>
+                                        <th>문의 유형</th>
+                                        <td><select id="qaType" name="qaType" style = "width:460px; height:35px;" >
+                                            <th:block >
+                                                <option  th:value= "1" th:text="|===================== 선택 =====================|" ></option>
+                                            </th:block>
+                                            <th:block >
+                                                <option th:value="|교환|" th:text="|교환|" ></option>
+                                            </th:block>
+                                            <th:block>
+                                                <option th:value="|환불|" th:text="|환불|"></option>
+                                            </th:block>
+                                            <th:block>
+                                                <option th:value="|A/S|" th:text="|A/S|"></option>
+                                            </th:block>
+                                            <th:block >
+                                                <option th:value="|주문/결제|" th:text="|주문/결제|"></option>
+                                            </th:block>
+                                            <th:block >
+                                                <option th:value="|회원관련|" th:text="|회원관련|"></option>
+                                            </th:block>
+                                            <th:block >
+                                                <option th:value="|기능/작동 오류|" th:text="|기능/작동 오류|"></option>
+                                            </th:block>
+                                            <th:block >
+                                                <option th:value="|기타문의|" th:text="|기타문의|"></option>
+                                            </th:block>
+                                            <th:block >
+                                                <option th:value="|신고|" th:text="|신고|"></option>
+                                            </th:block>
+                                        </select></td>
+                                    </tr>
+
+                                    <!--                                </select>-->
+                                    <tr>
+                                        <th>주문 번호 (수정 불가)</th>
+                                        <td><input type="text" name="orNum" th:value = "${modi?.orNum}" size="50" readonly/></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>작성자</th>
+                                        <td><input type="text" name="mId" th:value = "${session.member?.mId}" size="50" readonly/></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>제목</th>
+                                        <td><input type="text" name="qaName" size="50" id = "qaName" maxlength="15"/></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>문의 내용</th>
+                                        <td><textarea name="qaContent" rows="15" cols="8"
+                                                      placeholder="내용을 입력해주세요" style="width: 500px" id = "qaContent"></textarea></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>첨부파일</th>
+                                        <td><input type="file" name="qaFile1" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>첨부파일</th>
+                                        <td><input type="file" name="qaFile2" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>첨부파일</th>
+                                        <td><input type="file" name="qaFile3" /></td>
+                                    </tr>
+
+                                    <td><button type ="submit"  class="site-btn" >수정하기</button></td>
+                                    <!--                                    th:onclick="'location.href = \'' + @{'/order/'+${pdCode}+'/orderQnAList?mId='+${session.member?.mId}}+ '\''"-->
+                                    <!--                                    <td><button type="button" class="site-btn col-lg-4" th:onclick="'location.href = \'' + @{'/order/'+${list?.pdCode}+'/orderQnAList?mId='+${session.member?.mId}}+ '\''">목록으로 돌아가기</button></td>-->
+
+
+                                </div>
+                            </div>
+                        </form>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        </div>
+    </section>
+    <!-- Shop Cart Section End -->
+
+
+    <!-- Js Plugins -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/jquery-ui.min.js"></script>
+    <script src="/js/mixitup.min.js"></script>
+    <script src="/js/jquery.countdown.min.js"></script>
+    <script src="/js/jquery.slicknav.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/jquery.nicescroll.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/OrderPaging.js"></script>
+    <script src="/js/InsertQnA.js"></script>
+
+
+
+
+    <th:block th:include="./footer"></th:block>
+</content>
+
+</body>
+
+</html>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 이 아래에 있는 기본양식이 있어야 mapper로 인식한다.-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iwgh.gain.com.iwgh.gain.dao.MemberDAO">
+
+</mapper>

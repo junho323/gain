@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iwgh.gain.dao.MemberDAO">
+
+
+	<!-- 회원가입 -->
+	<insert id="memberJoin" parameterType="com.iwgh.gain.dto.MemberDTO">
+
+		INSERT INTO MEMBER VALUES(#{mId}, #{mPw}, #{mName}, #{mBirth, jdbcType=VARCHAR}, #{mGender, jdbcType=VARCHAR}, #{mPhone}, #{mAddr, jdbcType=VARCHAR}, #{mEmail}, #{mProfileName})
+	</insert>
+
+	<!-- 아이디 중복 확인-->
+	<select id="idCheck" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM MEMBER WHERE MID = #{mId}
+	</select>
+
+	<select id="idCheck2" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM DELETE_MEMBER_HISTORY WHERE MID = #{mId}
+	</select>
+
+	<!-- 이메일 중복 확인 -->
+	<select id="emailCheck" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM MEMBER WHERE MEMAIL = #{mEmail}
+	</select>
+
+	<select id="emailCheck2" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM DELETE_MEMBER_HISTORY WHERE MEMAIL = #{mEmail}
+	</select>
+
+	<!-- 로그인	-->
+	<select id="login" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM MEMBER WHERE MID = #{mId} AND MPW = #{mPw}
+	</select>
+
+	<!-- 회원정보조회 -->
+	<select id="memberInfo" parameterType="String" resultType="com.iwgh.gain.dto.MemberDTO">
+		SELECT * FROM MEMBER WHERE MID = #{mId}
+	</select>
+
+	<!-- 회원정보수정	-->
+	<update id="memberModify" parameterType="com.iwgh.gain.dto.MemberDTO">
+		UPDATE MEMBER SET MPW = #{mPw}, MNAME = #{mName}, MBIRTH = #{mBirth}, MPHONE = #{mPhone}, MADDR = #{mAddr}, MPROFILENAME = #{mProfileName} WHERE MID = #{mId}
+	</update>
+
+	<!-- 아이디 찾기	-->
+	<select id="findId" parameterType="hashMap" resultType="String">
+		SELECT MID FROM MEMBER WHERE MNAME = #{userName} AND MEMAIL = #{userEmail}
+	</select>
+
+	<!-- 비밀번호 찾기 임시비번 과정-->
+	<select id="findPw" parameterType="hashMap" resultType="String">
+		SELECT MPW FROM MEMBER WHERE MID = #{userId} AND MEMAIL = #{userEmail}
+	</select>
+
+	<!-- 비밀번호 임시 비밀번호로 변경-->
+	<update id="updatePw" parameterType="hashMap">
+		UPDATE MEMBER SET MPW = #{pw} WHERE MID = #{userId}
+	</update>
+
+	<!-- 회원탈퇴 -->
+	<delete id="memberDelete" parameterType="String">
+		DELETE FROM MEMBER WHERE MID = #{mId}
+	</delete>
+
+	<!-- 찜하기 -->
+	<insert id="wish" parameterType="hashMap">
+		INSERT INTO WISHLIST VALUES (#{pdCode}, #{mId})
+	</insert>
+
+	<select id="wishCheck" parameterType="hashMap" resultType="int">
+		SELECT COUNT(*) FROM WISHLIST WHERE MID = #{mId} AND PDCODE = #{pdCode}
+	</select>
+
+	<delete id="wishCancel" parameterType="hashMap">
+		DELETE FROM WISHLIST WHERE MID = #{mId} AND PDCODE =#{pdCode}
+	</delete>
+
+	<select id="wishStateResult" parameterType="String" resultType="com.iwgh.gain.dto.WishDTO">
+		SELECT * FROM WISHLIST WHERE MID = #{id}
+	</select>
+
+	<select id="wishState2" parameterType="String" resultType="com.iwgh.gain.dto.WishDTO">
+		SELECT * FROM WISHLIST WHERE MID = #{id}
+	</select>
+
+	<select id="memberWishList" parameterType="String" resultType="com.iwgh.gain.dto.WishDTO">
+		SELECT PRODUCT.PDCODE,PDIMAGE1,PDNAME,PDPRICE,PDQTY FROM WISHLIST, PRODUCT, PRODUCTIMAGE, MEMBER
+		WHERE
+		MEMBER.MID = WISHLIST.MID
+		AND PRODUCT.PDCODE = PRODUCTIMAGE.PDCODE
+		AND WISHLIST.PDCODE = PRODUCT.PDCODE
+		AND MEMBER.MID = #{mId} ORDER BY PRODUCT.PDNAME
+	</select>
+
+<!-- VALUES('ON'||LPAD(ORDERS_SEQ.NEXTVAL,4,0)	-->
+
+	<update id="wishOrdersInsert" parameterType="com.iwgh.gain.dto.WishOrderDTO">
+
+		INSERT INTO ORDERS (ORNUM, MID, PDCODE, ORNAME, OREMAIL, ORPHONE, ORADDR,ORDATE, ORQTY, ORPRICE)
+		SELECT 'ON'||LPAD(ORDERS_SEQ.NEXTVAL,4,0), ZC.* FROM (
+		<foreach collection="wishOrderList2" item="item"  index="index" separator="UNION ALL ">
+			SELECT
+			#{item.wishOrder.mId[${index}], jdbcType=VARCHAR},
+		#{item.wishOrder.pdCode[${index}], jdbcType=VARCHAR},
+			#{item.wishOrder.orName[${index}], jdbcType=VARCHAR},#{item.wishOrder.orEmail[${index}], jdbcType=VARCHAR},
+			#{item.wishOrder.orPhone[${index}], jdbcType=VARCHAR},#{item.wishOrder.orAddr[${index}], jdbcType=VARCHAR},SYSDATE,
+			#{item.wishOrder.pdQty[${index}], jdbcType=VARCHAR},#{item.wishOrder.pdPrice[${index}], jdbcType=VARCHAR} FROM DUAL
+		</foreach>)ZC
+
+	</update>
+
+	<delete id="afterorderWishListDelete" parameterType="String">
+		DELETE FROM WISHLIST WHERE MID = #{orderId}
+	</delete>
+
+
+</mapper>
+
+		<!-- foreach -->

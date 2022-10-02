@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ashion Template">
+    <meta name="keywords" content="Ashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ashion | Template</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <!--    <link rel="stylesheet" href="/css/modal1.css" type="text/css">-->
+
+</head>
+<style>
+    li{text-align : left;}
+
+
+.checkout__order__total2 {
+	padding-top: 5px;
+	border-bottom: 1px solid #d7d7d7;
+	padding-bottom: 50px;
+	margin-bottom: 25px;
+}
+
+.checkout__order__total2 ul li {
+	list-style: none;
+	font-size: 16px;
+	color: blue;
+	font-weight: 600;
+	overflow: hidden;
+	line-height: 40px;
+
+
+
+}
+
+</style>
+
+<body>
+<content class="regist-frame">
+    <th:block th:include="./header"></th:block>
+    <!-- Header Section End -->
+
+    <!-- Breadcrumb Begin -->
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                        <span>Shopping cart</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+    <!-- Checkout Section Begin -->
+    <section class="shop spad ">
+
+        <div class="container ">
+
+            <div class="col-lg-12">
+                <h6 class="coupon__link"><span class="icon_tag_alt"></span> <a
+                        href="/"><u>홈으로 돌아가기</u></a></h6>
+            </div>
+
+
+            <div class="row">
+                <!-- sidebar -->
+                <th:block th:if="${session.member?.mId ne 'admin'}" th:include="./OrderSidebar"></th:block>
+                <!--                &lt;!&ndash; sidebar &ndash;&gt;<th:block th:include="./OrderSidebar"></th:block> 관리자 사이드바 생기면 여기에 추가-->
+                <div class="col-lg-8" style="margin: auto;">
+                    <div class="checkout__order" style="background-color : white; border : 3px solid #CA1515;">
+                        <h5>주문상세조회</h5>
+                        <div class="checkout__order__product">
+                            <ul>
+
+                                <div class="checkout__order__total">
+                                    <ul>
+                                        <li>상품정보<img style="margin-left : 360px; width:240px; height:200px;"
+                                                     th:src="@{/upload/{aa}(aa=${view?.pdImage1})}"></li>
+                                        <li><span th:text="${view.pdName}"></span></li>
+                                    </ul>
+                                </div>
+
+                                <div class="checkout__order__total">
+                                    <ul>
+                                        <li>주문번호 <span th:text="${view.orNum}"></span></li>
+                                    </ul>
+                                </div>
+
+                                <div class="checkout__order__total">
+                                    <ul>
+                                        <li>주문자 <span th:text="${view.mId}"></span></li>
+                                    </ul>
+                                </div>
+
+                                <div class="checkout__order__total">
+                                    <ul>
+                                        <li>결제일자 <span th:text="${view.orDate}"></span></li>
+                                    </ul>
+                                </div>
+
+                                <div class="checkout__order__total">
+                                    <ul>
+                                        <li>결제수단 <span>카드결제(카카오페이)</span></li>
+                                    </ul>
+                                </div>
+
+                                <div class="checkout__order__total">
+                                    <ul>
+                                        <li>주문금액 <span
+                                                data-th-text="${#numbers.formatInteger(view?.orPrice, 3, 'COMMA') + '원'}"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="checkout__order__total">
+                                    <ul>
+                                        <li>배송지 정보 <span th:text="${view.orAddr}"></span></li>
+                                    </ul>
+                                </div>
+
+                            </ul>
+
+                            <div class="checkout__order__total">
+                                <ul>
+                                    <li th:if="${view.osState eq null} and ${view.orState ne null}">진행 상태
+                                        <span>주문 취소</span></li>
+                                    <li th:if="${view.osState ne null} and ${view.orState ne null}">진행 상태 <span>[[${view?.osState}]]</span>
+                                    </li>
+                                    <li th:if="${view.osState eq null} and ${view.orState eq null}">진행 상태
+                                        <span>입금확인</span></li>
+                                </ul>
+                            </div>
+
+                            <form action="orderStateModify" method="POST">
+                                <div th:if="${session.member?.mId eq 'admin'}" class="checkout__order__total2">
+                                    <input type="hidden" name="orNum" th:value="${view.orNum}">
+                                    <ul>
+                                        <li>진행 상태 변경(관리자 전용)</span></li>
+                                    </ul>
+                                    <select id="osState" name="osState">
+                                        <th:block>
+                                            <option th:value="|출고 처리 중|" th:text="|출고 처리 중|"></option>
+                                        </th:block>
+                                        <th:block>
+                                            <option th:value="|출고 완료|" th:text="|출고 완료|"></option>
+                                        </th:block>
+                                        <th:block>
+                                            <option th:value="|배송 시작|" th:text="|배송 시작|"></option>
+                                        </th:block>
+                                        <th:block>
+                                            <option th:value="|배송 완료|" th:text="|배송 완료|"></option>
+                                        </th:block>
+                                        <th:block>
+                                            <option th:value="|구매 확정|" th:text="|구매 확정|"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+
+
+                                <div class="checkout__order__widget">
+
+                                    <p style="font-weight:bold; color:black;">입금 확인</p>
+                                    <p>주문하신 상품의 결제가 완료되었습니다. 판매자가 주문을 확인하기 전 상태로, 옵션 교환 또는 주문 취소가 가능합니다.</p>
+                                    <p style="font-weight:bold; color:black;">출고 처리 중</p>
+                                    <p> 주문하신 상품을 택배 업체로 전달할 수 있게 준비(포장) 중입니다. 옵션 변경 또는 주문 취소가 불가능합니다.</p>
+                                    <p style="font-weight:bold; color:black;">출고 완료</p>
+                                    <p>상품을 배송하기 위한 준비(포장)가 완료되어 출고지에서 택배 업체로 전달되었습니다.</p>
+                                    <p style="font-weight:bold; color:black;">배송 시작</p>
+                                    <p>택배 업체가 출고지로부터 전달받은 상품을 고객님의 배송지 주소로 안전하게 배송 중입니다.</p>
+                                    <p style="font-weight:bold; color:black;">배송 완료</p>
+                                    <p>주문하신 상품이 배송지 주소에 잘 도착했습니다.</p>
+                                    <p style="font-weight:bold; color:black;">구매 확정</p>
+                                    <p>상품을 정상적으로 수령하여 구매를 확정했습니다. 구매 확정을 하지 않으시더라도 배송 완료 후 7일이 지나면 자동으로 확정됩니다. 구매 확정 시
+                                        교환 또는 환불 요청이 불가능합니다.</p>
+                                    <p style="font-weight:bold; color:black;">주문 취소</p>
+                                    <p>판매자가 주문을 확인하기 전 상태에서 주문 취소 신청이 완료 되었습니다. 판매자의 승인 후 주문이 취소됩니다.</p>
+                                </div>
+                                <div style="width : 750px; margin-left : 100px;">
+                                    <button th:if="${session.member?.mId ne 'admin'}" type="button"
+                                            class="site-btn col-lg-4" style="margin:auto;"
+                                            th:onclick="'location.href = \'' + @{'/order/'+${view?.pdCode}+'/OrderList?mId='+${session.member?.mId}}+ '\''">
+                                        목록으로 돌아가기
+                                    </button>
+                                    <button th:if="${session.member?.mId ne 'admin'} and ${view.osState eq null} and ${view.orState eq null}"
+                                            type="button" class="site-btn col-lg-4" data-toggle="modal"
+                                            data-target="#exampleModal" data-whatever="@mdo">주문취소요청
+                                    </button>
+
+                                    <!--                               관리자용 주문 버튼 -->
+                                    <button th:if="${session.member?.mId eq 'admin'}" type="button"
+                                            class="site-btn col-lg-4"
+                                            th:onclick="'location.href = \'' + @{'/order/PD0002/adminOrderList'}+ '\''">
+                                        관리자 목록으로 돌아가기
+                                    </button>
+                                    <button th:if="${session.member?.mId eq 'admin'} and ${view.osState eq null} and ${view.orState eq null}" type="submit"
+                                            class="site-btn col-lg-4"> 관리자 주문상태 변경
+                                    </button>
+                                    <button th:if="${session.member?.mId eq 'admin'} and ${view.osState ne null} and ${view.orState ne null}" type="submit"
+                                            class="site-btn col-lg-4"> 관리자 주문상태 수정
+                                    </button>
+                                </div>
+                            </form>
+
+                        </div>
+
+
+                        <!--  -->
+<!--                        <input type="hidden" th:value=${session.member?.mId} name="mId">-->
+                        <input type="hidden" th:value=${view.orNum} name="orNum">
+<!--                        <input type="hidden" th:value=${view.orPrice} name="orPrice">-->
+
+                        <form action="insertCancel" method="POST" id="modalForm" name="modalForm">
+                            <input type="hidden" th:value = ${session.member?.mId} name ="mId">
+                            <input type="hidden" th:value = ${view.orNum} name ="orNum">
+                            <input type="hidden" th:value = ${view.orPrice} name ="orPrice">
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">주문 취소 요청</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <label for="message-text" class="control-label">취소 사유</label>
+                                            <input type="hidden" name="osState">
+                                            <select id="osReason" name="osReason">
+                                                <th:block>
+                                                    <option th:value="|(취소사유 선택안함)|" th:text="|선택안함|"></option>
+                                                </th:block>
+                                                <th:block>
+                                                    <option th:value="|주문에 이상은 없으나 구매의사 없음(변심)|"
+                                                            th:text="|주문에 이상은 없으나 구매의사 없음(변심)|"></option>
+                                                </th:block>
+                                                <th:block>
+                                                    <option th:value="|사이즈 또는 색상, 주문 등을 잘 못 선택함|"
+                                                            th:text="|사이즈 또는 색상, 주문 등을 잘 못 선택함|"></option>
+                                                </th:block>
+                                                <th:block>
+                                                    <option th:value="|다른상품 구매,타 쇼핑몰에서 더 저렴하게 판매중임을 확인|"
+                                                            th:text="|다른상품 구매,타 쇼핑몰에서 더 저렴하게 판매중임을 확인|"></option>
+                                                </th:block>
+                                            </select>
+                                            </br></br>
+
+
+                                            <div class="form-group">
+                                                <label for="message-text" class="control-label">직접 입력 :</label>
+                                                <textarea class="form-control" id="message-text" name="ocReason"
+                                                          style="width: 440px;"></textarea>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="reset" class="btn btn-default" data-dismiss="modal">Close
+                                                </button>
+                                                <button type="button" id="btnConfirm" class="site-btn col-lg-3">확인</button>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <
+    <!-- Search End -->
+
+    <!-- Js Plugins -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/jquery-ui.min.js"></script>
+    <script src="/js/mixitup.min.js"></script>
+    <script src="/js/jquery.countdown.min.js"></script>
+    <script src="/js/jquery.slicknav.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/jquery.nicescroll.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/orderModal.js"></script>
+    <!--<script src="/js/modal1.js"></script>-->
+
+
+    <th:block th:include="./footer"></th:block>
+</content>
+
+
+</body>
+
+
+</html>

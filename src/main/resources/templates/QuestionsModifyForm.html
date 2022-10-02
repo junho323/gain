@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ashion Template">
+    <meta name="keywords" content="Ashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ashion | Template</title>
+
+    <!-- Google Font -->
+    <link
+            href="https://fonts.googleapis.com/css2?family=Cookie&display=swap"
+            rel="stylesheet">
+    <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+            rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css"
+          type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css"
+          type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/regist-form.css">
+</head>
+
+<body>
+<content class="regist-frame"> <th:block
+        th:include="./header"></th:block> <!-- Checkout Section Begin -->
+    <p th:text="${session.member?.mId}" style="visibility: hidden;" id="id-check"></p>
+    <section class="checkout spad">
+        <div class="container">
+            <div class="row"></div>
+            <form th:action="@{'/Q&A/Modify/'+${list?.qaNum}}" th:method="post" class="checkout__form">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h5 style="text-align: center;">자주하는 질문 수정</h5>
+                        <div class="row" style="justify-content: center;">
+
+                            <div class="col-lg-7">
+                                <input type="hidden" name="qaNum" th:value="${modi?.qaNum}"/>
+                                <caption th:text="${modi?.qaNum}+'번 게시글 수정'"></caption>
+                                <div class="checkout__form__input">
+                                    <p>
+                                        작성자 <span>*</span>
+                                    </p>
+                                    <input type="hidden" name="qaWriter" th:value="${session.member?.mId}">
+                                    <p id="user-id" th:text="${session.member?.mId}"></p>
+                                </div>
+
+                                <div class="checkout__form__input">
+                                    <p>
+                                        질문 제목 <span>*</span>
+                                    </p>
+                                    <input type="text" name="qaTitle" th:value="${modi?.qaTitle}">
+                                    <span></span>
+                                </div>
+
+                                <div class="checkout__form__input">
+                                    <p>
+                                        질문 내용<span>*</span>
+                                    </p>
+                                    <textarea name="qaContent" rows="20" cols="40"
+                                              class="form-control" maxlength='500' placeholder="내용을 입력해주세요"
+                                              style="width: 530px"></textarea>
+                                </div>
+
+                                <div class="checkout__form__input">
+                                    <p>
+                                        카테고리<span> *</span>
+                                    </p>
+
+                                    <form>
+                                        <select name="qaCategory" >
+                                            <option th:value="주문" th:text="주문">주문</option>
+                                            <option th:value="결제" th:text="결제">결제</option>
+                                            <option th:value="배송" th:text="배송">배송</option>
+                                            <option th:value="취소" th:text="취소">취소</option>
+                                            <option th:value="환불" th:text="환불">환불</option>
+                                            <option th:value="반품" th:text="반품">반품</option>
+                                            <option th:value="교환" th:text="교환">교환</option>
+                                            <option th:value="로그인" th:text="로그인">로그인</option>
+                                            <option th:value="회원정보" th:text="회원정보">회원정보</option>
+                                        </select>
+                                    </form>
+
+                                </div>
+
+                                <div class="col-lg-7">
+                                    <br />
+                                    <button type="submit" class="site-btn" id="regist-button">질문 등록</button>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </section>
+
+
+
+    <!-- Checkout Section End --> <!-- Js Plugins --> <script
+            src="/js/jquery-3.3.1.min.js"></script> <script
+            src="/js/bootstrap.min.js"></script> <script
+            src="/js/jquery.magnific-popup.min.js"></script> <script
+            src="/js/jquery-ui.min.js"></script> <script
+            src="/js/mixitup.min.js"></script> <script
+            src="/js/jquery.countdown.min.js"></script> <script
+            src="/js/jquery.slicknav.js"></script> <script
+            src="/js/owl.carousel.min.js"></script> <script
+            src="/js/jquery.nicescroll.min.js"></script> <script
+            src="/js/main.js"></script> <script defer src="/js/addr.js"></script>
+    <script
+            src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script> <script defer src="/js/regist.js"></script>
+    <script defer src="/js/adminCheck.js"></script>
+    <th:block th:include="./footer"></th:block> </content>
+
+
+</body>
+
+
+
+</html>
+
+

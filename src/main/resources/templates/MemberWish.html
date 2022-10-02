@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ashion Template">
+    <meta name="keywords" content="Ashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ashion | Template</title>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/regist-form.css">
+    <link rel="stylesheet" href="/css/paging.css">
+    <style>
+        .qtybtn{
+            visibility:hidden;
+        }
+
+    </style>
+</head>
+
+<body>
+<form action="" id="setRows">
+    <input type="hidden" name="rowPerPage" value="4">
+
+</form>
+<content class="regist-frame">
+<th:block th:include="./header"></th:block>
+
+    <p th:text="${session.member?.mId}" style="visibility: hidden;" id="id-check"></p>
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="/"><i class="fa fa-home"></i> 홈</a>
+                    <span>찜 목록</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Checkout Section Begin -->
+<section class="checkout spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h6 class="coupon__link"><span class="icon_tag_alt"></span>환영합니다!  [[${session.member?.mName}]]님!   </a></h6>
+            </div>
+        </div>
+        <!-- Shop Cart Section Begin -->
+        <section class="shop-cart spad">
+            <div class="container">
+                <div class="row">
+                    <th:block th:include="MemberLeftSide"></th:block>
+                    <div class="col-lg-9">
+
+                        <div class="shop__cart__table">
+                            <th:block  th:if="${#lists.size(wishList) == 0}">
+                                <div style="text-align: center;">
+                                    <h3 >찜 목록이 비어있어요!</h3>
+                                    <img src="/img/emptyWishList2.png" style="justify-content:center;" width="400vw">
+                                </div>
+
+                            </th:block>
+                            <th:block  th:if="${#lists.size(wishList) != 0}">
+
+
+
+                            <table class="table datatable" id="products">
+                                <thead>
+                                <tr>
+                                    <th>찜한 상품정보</th>
+                                    <th>수량</th>
+                                    <th>가격</th>
+                                    <th>삭제</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="wish:${wishList}">
+
+
+                                    <td class="cart__product__item">
+                                        <img th:src="@{/upload/{aa}(aa=${wish?.pdImage1})}" alt="" width="150px">
+                                        <div class="cart__product__item__title">
+                                            <a th:href="@{'/product/'+${wish?.pdCode}}"><h6 th:text="${wish?.pdName}"></h6></a>
+<!--                                            <div class="rating">-->
+<!--                                                <i class="fa fa-star"></i>-->
+<!--                                                <i class="fa fa-star"></i>-->
+<!--                                                <i class="fa fa-star"></i>-->
+<!--                                                <i class="fa fa-star"></i>-->
+<!--                                                <i class="fa fa-star"></i>-->
+<!--                                            </div>-->
+                                        </div>
+                                    </td>
+<!--                                     onkeydown="this.value=this.value.replace( /[a-z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g;); -->
+                                    <td class="cart__quantity" >
+                                        <butto style="background-color:#f2f2f2" class="minus_qty" type="button" th:price="${wish?.pdPrice}" th:qty="${wish?.pdQty}" th:onclick="wishMinusQty(this.getAttribute('price'), this.getAttribute('qty'), this)">-</butto>
+                                        <div class="pro-qty" >
+                                            <input type="number" readonly value="1"  th:id="qtyPrice">
+
+                                        </div>
+                                        <butto style="background-color:#f2f2f2" class="plus_qty" type="button" th:price="${wish?.pdPrice}" th:qty="${wish?.pdQty}" th:onclick="wishPlusQty(this.getAttribute('price'), this.getAttribute('qty'), this)">+</butto>
+                                    </td>
+<!--                                    <td class="cart__price"><p data-th-text="${#numbers.formatInteger(wish?.pdPrice, 3, 'COMMA') + '원'}"></p></td>-->
+                                        <td class="cart__price"><p id="result_wish_price" data-th-text="${#numbers.formatInteger(wish?.pdPrice, 3, 'COMMA') + '원'}"></p></td>
+
+                                    <td class="cart__close"><span th:mId="${session.member?.mId}" th:pdCode="${wish?.pdCode}" th:onclick="wishDelete(this.getAttribute('mId'), this.getAttribute('pdCode'), this)" class="icon_close"></span></td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                            <div class="col-lg-8 offset-lg-2">
+                                <div class="cart__total__procced">
+                                    <h6>구매 정보</h6>
+                                    <ul>
+
+                                        <li>총 상품<span id="total_pdcnt_wish"></span></li>
+                                        <li>총 수량 <span id="total_cnt_wish"></span></li>
+                                        <li>총 가격 <span id="total_price_wish"></span></li>
+                                    </ul>
+
+                                    <div id="order_modal_area">
+
+                                    </div>
+<!--                                    <a href="" class="primary-btn"   th:onclick="setWishPdData([[${session.member?.mId}]]);">주문하기</a>-->
+
+                                    <a class="primary-btn" data-toggle="modal" data-target="#multiOrderModal" th:onclick="setWishPdData([[${session.member?.mId}]]);loadWishListResult(wishPdData);">주문하기</a>
+                                </div>
+                            </div>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+        <!-- Shop Cart Section End -->
+
+    </div>
+</section>
+<!-- Checkout Section End -->
+    <!-- Js Plugins -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/jquery-ui.min.js"></script>
+    <script src="/js/mixitup.min.js"></script>
+    <script src="/js/jquery.countdown.min.js"></script>
+    <script src="/js/jquery.slicknav.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/jquery.nicescroll.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script defer src="/js/addr.js"></script>
+    <script defer src="/js/urlPathValue2.js"></script>
+    <script defer src="/js/wishDelete.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="/js/pagingforwish.js"></script>
+    <script src="/js/wishListOrder.js"></script>
+    <script src="/js/KG2.js"></script>
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js">
+<!--    <script defer src="../js/regist.js"></script>-->
+
+    <th:block th:include="./footer"></th:block>
+
+    <script th:inline="javascript">
+
+function loadWishListResult(wishPdData){
+
+    let output = "";
+    output += "<div class='modal fade' id='multiOrderModal' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel'aria-hidden='true'>";
+    output += "<div class='modal-dialog' role='document'>";
+    output += "<div class='modal-content'>";
+    output += "<div class='modal-header'>";
+    output += "<h5 class='modal-title' id='exampleModalLabel'>주문 정보입력</h5>";
+    output += "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>";
+    output += "<span aria-hidden='true'>&times;</span>";
+    output += "</button>";
+    output += "</div>";
+    output += "<div class='modal-body'>";
+    output += "<form action='/orders' method='POST' class='checkout__form' id='form2'>";
+    output += "<div class='addressInfo_input_div addressInfo_input_div_2' >";
+    output += "<div class='column'>";
+    output += "<div class='col-lg-12'>";
+
+    output += "<div class='checkout__form__input'>";
+<!--    output += "<h5>주문자 :  "+[[${member?.mName}]]+"  님</h5>";-->
+    output += '<input type="hidden" name="_csrf" value="{{csrfToken}}">';
+    output += "<h5>주문자 :  "+[[${session.member?.mName}]]+"  님</h5><div><h6></h6><input type='hidden'></div>";
+    output += "<input type='hidden' name='mId' required value='"+[[${session.member?.mId}]]+"'>";
+    output += "<p>이름 <span>*</span></p>";
+    output += "<input type='text' name='orName' id='orName' required value='"+[[${session.member?.mName}]]+"' style='color: #000000;font-weight : bold;' >";
+    output += "<p>이메일 <span>*</span></p>";
+    output += "<input type='email' name='orEmail' id='orEmail' required value='"+[[${session.member?.mEmail}]]+"' style='color: #000000;font-weight : bold;'>";
+    output += "<p>전화번호 <span>*</span></p>";
+    output += "<input type='text' name='orPhone' id='orPhone' required value='"+[[${session.member?.mPhone}]]+"' style='color: #000000;font-weight : bold;'>";
+    output += "<p>배송지 주소 <span>*</span></p>";
+    output += "<input type='text' id='sample6_postcode1' placeholder='우편번호를 입력하세요' name='orAddr[]' value ='"+[[${session.member?.mAddr}]]+"' style='color: #000000;font-weight : bold;'>";
+    output += "</div>";
+    output += "</div>";
+    output += "<div class='col-lg-12'>";
+    output += "<div  class='checkout__order'>";
+    output += "<h5>주문 상품</h5>";
+    output += "<div class='checkout__order__product'>";
+    output += "<ul>";
+    output += "<li>";
+    output += "<span class='top__text'>제품 정보</span><span class='top__text__right'>가격</span>";
+    output += "</li>";
+    output += "</ul>";
+        output += "<ul>";
+<!--        output += "<li>";-->
+<!--        output += '<span class="top__text__left" text="'+wishPdData[0].pdName+' '+wishPdData[0].pdQty+'개  '+wishPdData[0].pdPrice+'원"></span>';-->
+<!--        output += "</li>";-->
+<!--        let wishPdDataLength = wishPdData.length;-->
+<!--        console.log(wishPdDataLength);-->
+
+      for(let i in wishPdData){
+            output += "<li>";
+            output += '<span class="top__text__left">'+wishPdData[i].pdName+' '+wishPdData[i].pdQty+'개  '+(wishPdData[i].pdPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+'원</span>';
+            output += "<input type='hidden' name='pdCode' value='"+wishPdData[i].pdCode+"'>";
+            output += "<input type='hidden' name='pdName' value='"+wishPdData[i].pdName+"'>";
+            output += "<input type='hidden' name='pdQty' value='"+wishPdData[i].pdQty+"'>";
+            output += "<input type='hidden' name='pdPrice' value='"+wishPdData[i].pdPrice+"'>";
+            output += "</li>";
+<!--            console.log('상품명 : '+wishPdData[i].pdName+' 구매개수 '+wishPdData[i].pdQty+' 가격 : '+wishPdData[i].pdPrice);-->
+
+        }
+    output += "</ul>";
+
+    output += "<ul>";
+
+    output += "</ul>";
+    output += "</br>";
+    output += "</div>";
+    output += "<div class='checkout__order__total'>";
+    output += "<ul>";
+    output += "<span style='font-weight: bold; '>총 결제금액 : "+wishPdData[0].pdTotalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+"원</span>";
+    output += "</ul>";
+    output += "</div>";
+    output += "<div class='checkout__order__widget'>";
+    output += "<span>사이트 이용 약관 동의(필수) </span>";
+    output += "<input type='checkbox' id='checkAgree2'>";
+    output += "<span class='checkmark'></span>";
+    output += "<p>본인은 만 14세 이상이며, 주문 내용을 확인하였습니다.</p>";
+    output += "<p>(주)사이트 이름 는 통신판매중개자로 거래 당사자가 아니므로, 판매자가 등록한 상품정보 및 거래 등에 대해 책임을 지지 않습니다.</p>";
+    output += "<p>(단, ㈜사이트 이름 가 판매자로 등록 판매한 상품은 판매자로서 책임을 부담합니다).</p>";
+    output += "<button class='site-btn' type='button' style = 'height: 45px; padding:5px;' id='iamportPayment2' onclick='lastCheckQty("+'[[${wishQtyList}]]'+")'>결제테스트</button>";
+    output += "</div>";
+    output += "</div>";
+    output += "</div>";
+    output += "</div>";
+    output += "</form>";
+    output += "</div>";
+    output += "</div>";
+    output += "</div>";
+    output += "</div>";
+    output += "</div>";
+
+
+
+    document.getElementById("order_modal_area").innerHTML = output;
+}
+
+
+</script>
+</content>
+
+
+
+
+</body>
+<script>
+    <!--    document.getElementById("order_modal_area");-->
+    function loadOrderModal(){
+<!--            console.log("모달불러오기");-->
+<!--            let output = "<th:block th:include='./MultiOrder'></th:block>";-->
+<!--            document.getElementById("order_modal_area").innerHTML = output;-->
+<!--    $("#order_modal_area").html(output);-->
+    }
+
+
+<!--function rerere(){-->
+<!--       location.reload();-->
+<!--}-->
+
+function modalRefresh(){
+<!--    let url = "./MultiOrder";-->
+<!--    $('#multiOrderModal > .modal-dialog').load(url, function(){-->
+
+<!--        $('#multiOrderModal').modal("show");-->
+<!--    });-->
+
+<!--     console.log("새로고침제발");-->
+<!--     $("#order_modal_area").load(window.location.href + this);-->
+
+
+
+}
+
+</script>
+
+
+
+
+
+</html>

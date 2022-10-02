@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ashion Template">
+    <meta name="keywords" content="Ashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ashion | Template</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <!--    <link rel="stylesheet" href="/css/modal1.css" type="text/css">-->
+
+</head>
+<style>
+    li{text-align : left;}
+</style>
+
+<body>
+<content class="regist-frame">
+    <th:block th:include="./header"></th:block>
+    <!-- Header Section End -->
+
+    <!-- Breadcrumb Begin -->
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                        <span>Shopping cart</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+    <!-- Checkout Section Begin -->
+    <section class="shop spad ">
+
+        <div class="container " >
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h6 class="coupon__link"><span class="icon_tag_alt"></span> <a href="#">Have a coupon?</a> Click
+                        here to enter your code.</h6>
+                </div>
+
+            </div>
+            <form action = "insertCancel"  method = "POST" id = "modalForm" name = "modalForm">
+                <div class="row">
+<!--                    &lt;!&ndash; sidebar &ndash;&gt;<th:block th:include="./OrderSidebar"></th:block> 관리자용 헤더 넣는 곳-->
+
+                    <div class="col-lg-8"  style = "margin: auto;">
+                        <div class="checkout__order"style = "background-color : white; border : 3px solid #CA1515;">
+                            <h5>주문 정보 확인용</h5>
+                            <div class="checkout__order__product" >
+                                <ul>
+
+                                    <div class="checkout__order__total">
+                                        <ul>
+                                            <li >상품정보<img style = "margin-left : 360px; width:240px; height:200px;" th:src="@{/upload/{aa}(aa=${view?.pdImage1})}"></li>
+                                            <li > <span th:text="${view.pdName}"></span></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="checkout__order__total">
+                                        <ul>
+                                            <li >주문번호 <span th:text="${view.orNum}"></span></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="checkout__order__total">
+                                        <ul>
+                                            <li >주문자 <span th:text="${view.mId}"></span></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="checkout__order__total">
+                                        <ul>
+                                            <li >결제일자 <span th:text="${view.orDate}"></span></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="checkout__order__total">
+                                        <ul>
+                                            <li >결제수단 <span>카드결제(카카오페이)</span></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="checkout__order__total">
+                                        <ul>
+                                            <li >주문금액 <span data-th-text="${#numbers.formatInteger(view?.orPrice, 3, 'COMMA') + '원'}"></span></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="checkout__order__total">
+                                        <ul>
+                                            <li>배송지 정보 <span th:text="${view.orAddr}"></span></li>
+                                        </ul>
+                                    </div>
+
+
+
+
+                                </ul>
+
+                                <div style ="align-items:center;">
+                                    <button type="button" th:if = "${session.member?.mId eq admin}" class="site-btn" th:onclick="'location.href = \'' + @{'/order/'+adminCancelList}+ '\''">목록으로 돌아가기</button>
+                                    <button type="button" th:if = "${session.member?.mId ne admin}" class="site-btn" th:onclick="'location.href = \'' + @{'/order/cancelList?mId='+${session.member?.mId}}+ '\''">목록으로 돌아가기</button>
+                                </div>
+                            </div>
+
+
+                            <!-- OrderCancel -->
+                            <input type="hidden" th:value = ${session.member?.mId} name ="mId">
+                            <input type="hidden" th:value = ${view.orNum} name ="orNum">
+                            <input type="hidden" th:value = ${view.orPrice} name ="orPrice">
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <
+    <!-- Search End -->
+
+    <!-- Js Plugins -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/jquery-ui.min.js"></script>
+    <script src="/js/mixitup.min.js"></script>
+    <script src="/js/jquery.countdown.min.js"></script>
+    <script src="/js/jquery.slicknav.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/jquery.nicescroll.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/orderModal.js"></script>
+    <!--<script src="/js/modal1.js"></script>-->
+
+
+
+    <th:block th:include="./footer"></th:block>
+</content>
+
+
+</body>
+
+
+</html>

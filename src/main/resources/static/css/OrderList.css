@@ -1,0 +1,33 @@
+form {
+	width: 500px;
+}
+table {
+	border-collapse:collapse;
+	margin-bottom: 10px;
+}
+th, td {
+	padding: 3px 10px;
+}
+.off-screen {
+	display: none;
+}
+#nav {
+	width: 1100px;
+	text-align: center;
+
+}
+#nav a {
+    margin-top : 30px;
+	display: inline-block;
+	padding: 6px 10px;
+	margin-right: 10px;
+
+	font-family:Tahoma;
+	background: #CA1515;
+	color: white;
+	text-decoration: none;
+}
+#nav a.active {
+	background: #ED0000;
+	color: #fff;
+}

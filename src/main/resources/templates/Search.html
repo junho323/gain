@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ashion Template">
+    <meta name="keywords" content="Ashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ashion | Template</title>
+</head>
+
+<body>
+<!-- Button trigger modal -->
+<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">-->
+<!--    아이디 찾기-->
+<!--</button>-->
+
+<!-- Modal -->
+<div class="modal fade" id="pd-search1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">검색</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/product/Search" class="search-form" method="POST">
+                    <span class="icon bi-search"></span>
+                    <input type="text" name="pdName" placeholder="검색할 제목을 입력해주세요." class="form-control">
+                    <button class="btn js-search-close">
+                        <span class="bi-x"></span>
+                    </button>
+                    <input type="submit" class="form-control" value="검색">
+
+                </form>
+
+<!--                <div class="mb-3">-->
+<!--                    <label for="recipient-name" class="col-form-label">인증코드:</label>-->
+<!--                    <input type="text" class="form-control" id="memail">-->
+<!--                </div>-->
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</html>

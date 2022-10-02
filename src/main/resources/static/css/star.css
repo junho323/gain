@@ -1,0 +1,45 @@
+.star {
+	position: relative;
+	font-size: 2rem;
+	color: #ddd;
+
+}
+
+.star input {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.star span {
+	width: 0;
+	position: absolute;
+	left: 0;
+	color: red;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+.off-screen {
+	display: none;
+}
+
+
+
+#nav a {
+	display: inline-block;
+	padding: 3px 5px;
+	margin-right: 10px;
+	font-family: Tahoma;
+	background: #ccc;
+	color: #000;
+	text-decoration: none;
+}
+
+#nav a.active {
+	background: #333;
+	color: #fff;
+}

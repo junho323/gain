@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ashion Template">
+    <meta name="keywords" content="Ashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ashion | Template</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+<body>
+<content class="regist-frame">
+    <th:block th:include="./header"></th:block>
+
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                    <span>Shop</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- sidebar -->
+<section class="checkout spad">
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                <h6 class="coupon__link"><span class="icon_tag_alt"></span> <a
+                        href="/"><u>홈으로 돌아가기</u></a></h6>
+            </div>
+            <!-- sidebar --><th:block th:include="./MemberLeftSide"></th:block>
+
+            <div class="contact__address" style = "border : 3px solid #CA1515; width : 800px; height: 350px; padding : 20px;">
+
+                <ul>
+
+                    <li>
+                        <p th:text="${session.member?.mId}" style="visibility: hidden;" id="id-check"></p>
+                       <h5><i class="fa fa-headphones"></i> 주문이 성공적으로 완료되었습니다.</h5></br>
+                        <h5> 상세 내용을 확인하시려면 <a th:href="@{OrderList(mId=${session.member?.mId})}" style = "color:#CA1515;">주문 목록</a>을 클릭하십시오.</h5></br>
+                        <h5>이용해주셔서 감사합니다</h5></br>
+
+                    </li>
+
+                    <li>
+                        <h6><i class="fa fa-phone"></i>  문의전화 : </h6>
+
+                    </li>
+                    <li>
+                        <h6><i class="fa fa-phone"></i>  문의 e-mail : </h6>
+
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- Shop Section End -->
+
+
+<!-- Search End -->
+
+<!-- Js Plugins -->
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery-ui.min.js"></script>
+<script src="/js/mixitup.min.js"></script>
+<script src="/js/jquery.countdown.min.js"></script>
+<script src="/js/jquery.slicknav.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/jquery.nicescroll.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+    <th:block th:include="./footer"></th:block>
+    </content>
+
+</body>
+
+</html>

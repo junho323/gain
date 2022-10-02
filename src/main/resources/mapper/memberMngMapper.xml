@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iwgh.gain.dao.MemberMngDAO">
+
+    <!--  회원 목록  -->
+    <select id="memberList" resultType="com.iwgh.gain.dto.MemberDTO">
+        SELECT * FROM MEMBER
+    </select>
+    
+    <!-- 탈퇴 회원 목록  -->
+    <select id="deleteMemberList" resultType="com.iwgh.gain.dto.MemberDTO">
+        SELECT * FROM DELETE_MEMBER_HISTORY
+    </select>
+
+    <!-- 탈퇴 회원 복구  -->
+    <insert id="restoreMember" parameterType="String">
+        INSERT INTO MEMBER SELECT MID,MPW,MNAME,MBIRTH,MGENDER,MPHONE,MADDR,MEMAIL,MPROFILENAME FROM DELETE_MEMBER_HISTORY WHERE MID = #{mId}
+    </insert>
+
+    <delete id="restoreMember2" parameterType="String">
+        DELETE FROM DELETE_MEMBER_HISTORY WHERE MID = #{mId}
+    </delete>
+</mapper>

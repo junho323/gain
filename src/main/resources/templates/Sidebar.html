@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	
+				<div class="col-lg-3 col-md-3">
+					<div class="shop__sidebar">
+						<div class="sidebar__categories">
+							<div class="section-title">
+								<h4><a href="/product">가구전체보기</a></h4>
+							</div>
+							<div class="categories__accordion">
+								<div class="accordion" id="accordionExample">
+									<div class="card">
+										<div class="card-heading active">
+											<a data-toggle="collapse" data-target="#collapseOne">진열장/책장</a>
+										</div>
+										<div id="collapseOne" class="collapse show"
+											data-parent="#accordionExample">
+											<div class="card-body">
+												<ul>
+
+													<li><a href="/product/magazine">매거진랙</a></li>
+													<li><a href="/product/cabinet">장식장</a></li>
+
+													<li><a href="/product/Bookshelf">책장</a></li>
+
+												</ul>
+
+											</div>
+
+										</div>
+									</div>
+									<div class="card">
+									<div class="card-heading active">
+										<a data-toggle="collapse" data-target="#collapseOne1">침대/소파</a>
+									</div>
+									<div id="collapseOne1" class="collapse" data-parent="#accordionExample" style="">
+										<div class="card-body">
+											<ul>
+												<li><a href="/product/Bed">침대</a></li>
+												<li><a href="/product/Sofa1">일반소파</a></li>
+												<li><a href="/product/Sofa2">좌식소파</a></li>
+												<li><a href="/product/Sofa3">소파베드</a></li>
+												<li><a href="/product/Sofa4">소파스툴</a></li>
+												<li><a href="/product/Recliner">리클라이너</a></li>
+											</ul>
+
+										</div>
+
+									</div>
+								</div>
+
+									<div class="card">
+										<div class="card-heading active">
+											<a data-toggle="collapse" data-target="#collapseOne2">테이블/식탁/책상</a>
+										</div>
+										<div id="collapseOne2" class="collapse" data-parent="#accordionExample" style="">
+											<div class="card-body">
+												<ul>
+													<li><a href="/product/Table1">사이드테이블</a></li>
+													<li><a href="/product/Table2">좌식테이블</a></li>
+													<li><a href="/product/Table3">소파테이블</a></li>
+													<li><a href="/product/Table4">식탁</a></li>
+													<li><a href="/product/Table5">책상</a></li>
+
+												</ul>
+
+											</div>
+
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-heading active">
+											<a data-toggle="collapse" data-target="#collapseOne3">의자</a>
+										</div>
+										<div id="collapseOne3" class="collapse" data-parent="#accordionExample" style="">
+											<div class="card-body">
+												<ul>
+													<li><a href="/product/Chair1">흔들의자</a></li>
+													<li><a href="/product/Chair2">게이밍의자</a></li>
+													<li><a href="/product/Chair3">사무용의자</a></li>
+													<li><a href="/product/Chair4">인테리어의자</a></li>
+													<li><a href="/product/Chair5">안락의자</a></li>
+
+												</ul>
+
+											</div>
+
+										</div>
+									</div>
+
+									<div class="categories__accordion">
+										<div class="accordion" id="accordionExample1" th:if="${session.member?.mId == 'admin'}">
+											<div class="card">
+												<div class="card-heading active" >
+													<a data-toggle="collapse" data-target="#collapseOne10">가구관리</a>
+												</div>
+												<div id="collapseOne10" class="collapse" data-parent="#accordionExample" style="">
+													<div class="card-body" >
+														<ul>
+															<li><a href="/product/write-form">가구 등록</a></li>
+															<li><a href="/product/management">가구 관리 목록</a></li>
+
+
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-heading"></div>
+										<div id="collapseFive" class="collapse"
+											data-parent="#accordionExample">
+											<div class="card-body"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			
+</body>
+</html>

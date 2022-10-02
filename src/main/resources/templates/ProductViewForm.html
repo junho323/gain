@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ashion Template">
+    <meta name="keywords" content="Ashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+    <!-- Use it like any other HTML element -->
+<!--    <model-viewer alt="Neil Armstrong's Spacesuit from the Smithsonian Digitization Programs Office and National Air and Space Museum" src="shared-assets/models/NeilArmstrong.glb" ar ar-modes="webxr scene-viewer quick-look" environment-image="shared-assets/environments/moon_1k.hdr" poster="shared-assets/models/NeilArmstrong.webp" seamless-poster shadow-intensity="1" camera-controls enable-pan></model-viewer>-->
+    <title>Ashion | Template</title>
+
+    <!-- Google Font -->
+    <link
+            href="https://fonts.googleapis.com/css2?family=Cookie&display=swap"
+            rel="stylesheet">
+    <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+            rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/star.css" type="text/css">
+    <link rel="stylesheet" href="/css/modelObj.css" type="text/css">
+</head>
+
+<body th:onload="wishLikeState2([[${session.member?.mId}]])">
+<p th:text="${session.member?.mId}" style="visibility:hidden;" id="session-id"></p>
+<content class="regist-frame">
+    <th:block
+            th:include="/header"></th:block> <!-- Breadcrumb Begin -->
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="/"><i class="fa fa-home"></i> Home</a> <a
+                            href="/product">상품목록</a> <span>[[${view?.pdName}]]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End --> <!-- Product Details Section Begin -->
+    <section class="product-details spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="product__details__pic">
+                        <div
+                                class="product__details__pic__left product__thumb nice-scroll">
+                            <a class="pt active" href="#product-1"> <img th:src="@{/upload/{aa}(aa=${view?.pdImage2})}">
+                            </a>
+                            <a class="pt" href="#product-2"> <img th:src="@{/upload/{aa}(aa=${view?.pdImage3})}">
+                            </a>
+                            <a class="pt" href="#product-3"> <img th:src="@{/upload/{aa}(aa=${view?.pdImage4})}">
+                            </a>
+                            <a class="pt" href="#product-4"> <img th:src="@{/upload/{aa}(aa=${view?.pdImage5})}">
+                            </a>
+                        </div>
+                        <div class="product__details__slider__content">
+                            <div class="product__details__pic__slider owl-carousel">
+                                <img data-hash="product-1" class="product__big__img"
+                                     th:src="@{/upload/{aa}(aa=${view?.pdImage2})}"> <img
+                                    data-hash="product-2" class="product__big__img"
+                                    th:src="@{/upload/{aa}(aa=${view?.pdImage3})}"> <img
+                                    data-hash="product-3" class="product__big__img"
+                                    th:src="@{/upload/{aa}(aa=${view?.pdImage4})}"> <img
+                                    data-hash="product-4" class="product__big__img"
+                                    th:src="@{/upload/{aa}(aa=${view?.pdImage5})}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-lg-6">
+                    <div class="product__details__text">
+                        <h3>
+                            [[${view?.pdName}]]
+                        </h3>
+
+                            <span class='star' style='font-size:15px'>★★★★★
+                                        <span  id="draw-star-avg"> ★★★★★</span>
+                             </span>
+                            <span id="star-avg"></span>
+
+                        <div class="product__details__price"th:if="${view?.pdCategory != '인테리어'}"
+                             data-th-text="${#numbers.formatInteger(view?.pdPrice, 3, 'COMMA') + '원'}">
+                            <p></p>
+                        </div>
+                        <p>[[${view?.pdDetail}]]</p>
+                        <div class="product__details__button">
+                            <p th:text="${session.member?.mId}" style="visibility: hidden;" id="id-check"></p>
+                            <button id="directBuy"th:if=" ${view?.pdCategory != '인테리어'}"
+                                    th:onclick="'location.href = \'' + @{'/order/'+${view?.pdCode}+'/'+${session.member?.mId}}+ '\''"
+                                    class="cart-btn" style=border:none;>
+                                <span class="icon_bag_alt"></span> 바로구매
+                            </button>
+
+
+                            <button id="insertCart" href=# class="cart-btn" style=border:none; th:if="${view?.pdCategory != '인테리어'}">
+                                <span class="icon_bag_alt"></span> 장바구니
+                            </button>
+                            <a th:href="@{'/product/'+${view?.pdCode}}" id="pdcode-get-text"
+                               style="visibility:hidden"></a>
+                            <ul>
+                                <input type="button" value="1:1 카톡 상담하기" onclick="new_window();" class="site-btn" th:if="${view?.pdCategory == '인테리어'}">
+                                <li th:if="${view?.pdCategory != '인테리어'}" ><a th:mId="${session.member?.mId}" th:pdCode="${view?.pdCode}"
+                                       th:onclick="wishLike(this.getAttribute('mId'), this.getAttribute('pdCode'), this)"
+                                       id="heart-wish"><span class="icon_heart_alt"></span></a></li>
+                            </ul>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="product__details__tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab"
+                                                    href="#tabs-1" role="tab" aria-selected="false">상품내용</a>
+                            </li>
+                            <li class="nav-item"  th:if="${view?.pdCategory != '인테리어'}"><a class="nav-link" data-toggle="tab"
+                                                    href="#tabs-2" role="tab" aria-selected="false">AR</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link active"
+                                                    data-toggle="tab" href="#tabs-3" role="tab" aria-selected="true">Reviews
+                                </a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane" id="tabs-1" role="tabpanel">
+                                <h6>상품내용</h6>
+                                <p>[[${view?.pdDetail}]]</p>
+                            </div>
+                            <div class="tab-pane" id="tabs-2" role="tabpanel">
+                                <h5>AR로 가구배치를 경험해보세요!</h5>
+                                <p>모바일 환경에서 체험 가능합니다.</p>
+
+
+
+                                <model-viewer th:src="@{/upload/model/{aa}(aa=${view?.pdModel})}" th:poster="@{/upload/model/{aa}(aa=${view?.pdImage1})}" shadow-intensity="1" ar ar-modes="webxr scene-viewer quick-look" camera-controls alt="A 3D model carousel">
+
+                                    <button slot="ar-button" id="ar-button">
+                                        AR로 보기
+                                    </button>
+
+                                    <div id="ar-prompt">
+<!--                                        <img src="/assets/arm-chair-furniture/source/Chair.png">-->
+                                        <img th:src="@{/upload/{aa}(aa=${view?.pdImage1})}">
+
+                                    </div>
+
+                                    <button id="ar-failure">
+                                        AR is not tracking!
+                                    </button>
+
+                                    <div class="slider">
+
+                                            <button class="slide selected" onclick="switchSrc(this, 'Chair')" >
+                                                <img th:src="@{/upload/{aa}(aa=${view?.pdImage1})}">
+<!--                                            <button class="slide selected" onclick="switchSrc(this, 'Chair')" th:style="'background-image: url('+'/upload/'+${view?.pdImage1}+');'">-->
+
+                                                <!--
+                                                            </button><button class="slide" onclick="switchSrc(this, 'Mixer')" style="background-image: url('assets/arm-chair-furniture/source/Chair.png');">
+
+                                                            </button><button class="slide" onclick="switchSrc(this, 'GeoPlanter')" style="background-image: url('assets/arm-chair-furniture/source/Chair.png');">
+
+                                                            </button><button class="slide" onclick="switchSrc(this, 'ToyTrain')" style="background-image: url('assets/arm-chair-furniture/source/Chair.png');">
+
+                                                            </button><button class="slide" onclick="switchSrc(this, 'Canoe')" style="background-image: url('assets/arm-chair-furniture/source/Chair.png');">     -->
+
+                                            </button>
+
+                                    </div>
+                                </model-viewer>
+
+
+                            </div>
+
+                            <div class="tab-pane active" id="tabs-3" role="tabpanel">
+                                <h6> </h6>
+                                <div class="card-header " style="border: solid; border-width:0.1px; border-color:#dee2e6; align-content:center; ">
+                                    <i class="fa fa-comment fa"></i>
+                                    <span style="align-self:center;">별점&nbsp;</span>
+                                    <span class="star" id="std">
+                                            ★★★★★
+                                            <span>★★★★★</span>
+                                            <input type="range" oninput="drawStar(this)" value="0" step="0.5" min="0" max="5">
+                                    </span>
+                                </div>
+
+                                <div class="card mb-2">
+
+                                    <div class="card-header bg-light"  id="nav">
+                                        <i class="fa fa-comment fa"></i>
+                                        <span>리뷰&nbsp;</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">
+                                            <textarea class="form-control" id="review"
+                                                      rows="3"></textarea>
+                                                <button type="button" class="btn btn-dark mt-3"
+                                                        th:onClick="reviewWrite([[${view?.pdCode}]],[[${session.member?.mId}]],review);">리뷰 작성
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div id="review-area" ></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Instagram End --> <!-- Checkout Section End --> <!-- Js Plugins -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script
+            src="/js/bootstrap.min.js"></script>
+    <script
+            src="/js/jquery.magnific-popup.min.js"></script>
+    <script
+            src="/js/jquery-ui.min.js"></script>
+    <script
+            src="/js/mixitup.min.js"></script>
+    <script
+            src="/js/jquery.countdown.min.js"></script>
+    <script
+            src="/js/jquery.slicknav.js"></script>
+    <script
+            src="/js/owl.carousel.min.js"></script>
+    <script
+            src="/js/jquery.nicescroll.min.js"></script>
+    <script
+            src="/js/main.js"></script>
+    <script defer src="/js/addr.js"></script>
+    <script
+            src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+    <script defer src="/js/regist.js"></script>
+<!--    <script defer src="/js/wishLike.js"></script>-->
+    <script defer src="/js/wishDelete.js"></script>
+    <script defer src="/js/loginidcheck.js"></script>
+    <script defer src="/js/reviewWrite.js"></script>
+<!--    <script defer src="/js/reviewList.js" th:inline="javascript"></script>-->
+    <script defer src="/js/reviewDelete.js"></script>
+
+   <script th:inline="javascript">
+
+
+function reviewList(pdCode){
+
+    console.log("리뷰 불러오는 상품코드는? : "+pdCode);
+    $.ajax({
+        type : "get",
+        url : "/reviews/"+pdCode,
+        dataType : "json",
+        contentType : 'application/json; charset-utf-8',
+        success : function(data){
+            console.log(data);
+            if(window.location.pathname.split("/").length == 3){
+                reviewListView(data);
+            }
+
+
+        },
+        error : function(){
+
+        }
+    });
+    if(reviewAvg <= 0){
+        scoreAvgText.innerText = "0점";
+    }
+
+
+}
+let reviewCnt = 0;
+let reviewAvg = 0;
+let ckrvid = false;
+
+
+
+const scoreAvgText = document.getElementById("star-avg");
+const scoreAvgstar = document.getElementById("draw-star-avg");
+
+
+function reviewListView(list){
+    reviewCnt = list.length;
+
+
+    reviewAvg = 0;
+    for(let i in list){
+        console.log("리스트 i 검사 : "+i)
+        reviewAvg += list[i].starScore;
+        console.log("리스트 reviewAvg 검사 : "+reviewAvg)
+    }
+    console.log("평균별점 : "+(reviewAvg/list.length).toFixed(2));
+        if(reviewAvg != 0){
+            scoreAvgText.innerText = (reviewAvg/list.length).toFixed(2)+"점";
+        }else{
+            scoreAvgText.innerText = "0점";
+        }
+
+
+
+     scoreAvgstar.style.width= ((reviewAvg/list.length))*10*2+"%";
+
+
+
+
+    let output = "";
+      output += "<div class='blog__details__comment'>";
+      output += "<h5 style='text-transform:capitalize; margin-bottom: 15px;'>Reviews("+list.length+")";
+      output += "</h5>";
+      output +=  (list.length != 0) ? "<div class='blog__comment__item__text'> <ul style='margin-bottom:30px'><h6 style='color:#111111'>평균별점 <li style='color:#111111'><i class='fa fa-star'></i>"
+             + ((reviewAvg/list.length)).toFixed(2)+"</li></h6></ul></div>" : "등록된 리뷰가 없습니다.";
+     for(let i in list){
+        ckrvid = false;
+        if([[${session.member?.mId}]] == list[i].mid){
+            ckrvid = true;
+        }
+        output += "<div class='blog__comment__item'>";
+        output += "<div class='blog__comment__item__pic'>";
+        output += "<img src='/profile/"+list[i].mprofileName+"'width='70px' alt=''>";
+        output += "</div>";
+        output += "<div class='blog__comment__item__text'>";
+        output += "<h6>"+list[i].mname+"</h6>";
+        output += "<p>"+list[i].review+"</p>";
+        output += "<ul style='margin-bottom:30px'>";
+        output += "<li><i class='fa fa-clock-o'></i>"+list[i].rvDate+"</li>";
+        output += "<li><i class='fa fa-star'></i>"+(list[i].starScore)
+                    +"<span class='star' style='font-size:15px'>" + "★★★★★"
+                    + "<span style='width:" + (list[i].starScore)*10*2 + "%'>" + "★★★★★"+ "</span>"
+          		  "</li>";
+          		  console.log("로그인아이디 : "+[[${session.member?.mId}]]+" , 리뷰 아이디 : "+[[${session.member?.mId}]]+" , 일치여부 "+ckrvid);
+         if(ckrvid == true){
+<!--             output += "<li class='fa fa-close' th:if='[[${session.member?.mId eq " +list[i].mid+ "}]]'><span onclick='reviewDelete(\'"+list[i].rvNum+"\')'>삭제</span></li>";-->
+                 output += '<li class="fa fa-close" th:if="[[${session.member?.mId eq ' +list[i].mid+ '}]]"><span onclick="reviewDelete(\''+list[i].rvNum+'\')">삭제</span></li>';
+         }
+
+        output += "</ul>";
+        output += "</div>";
+        output += "</div>";
+        output += "</div>";
+
+     }
+     let reviewArea = document.getElementById('review-area');
+     reviewArea.innerHTML = output;
+
+
+}
+
+
+    </script>
+    <script type="module">
+        const modelViewer = document.querySelector("model-viewer");
+
+        window.switchSrc = (element, name) => {
+          const base = "/assets/arm-chair-furniture/source/" + name;
+          modelViewer.src = base + '.glb';
+          modelViewer.poster = base + '.png';
+          const slides = document.querySelectorAll(".slide");
+          slides.forEach((element) => {element.classList.remove("selected");});
+          element.classList.add("selected");
+        };
+
+        document.querySelector(".slider").addEventListener('beforexrselect', (ev) => {
+          // Keep slider interactions from affecting the XR scene.
+          ev.preventDefault();
+        });
+      </script>
+
+    <script>
+      function new_window() {
+        window.open(
+          "https://accounts.kakao.com/login?continue=https%3A%2F%2Fopen.kakao.com%2Ftm%2FsiFfsyne%2Fhtml",
+          "Child",
+          "width=400, height=700, top=50, left=50"
+        );
+      }
+    </script>
+
+    <th:block th:include="/footer"></th:block>
+</content>
+
+
+</body>
+
+
+</html>

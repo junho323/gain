@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ashion Template">
+    <meta name="keywords" content="Ashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ashion | Template</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style1.css" type="text/css">
+    <link rel="stylesheet" href="/css/order.css" type="text/css">
+
+</head>
+<style>
+
+
+
+
+
+
+
+
+</style>
+<body onload = "init2();init();">
+<content class="regist-frame">
+    <th:block th:include="./header"></th:block>
+
+
+
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+
+
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Checkout Section Begin -->
+ <section class="checkout spad">
+
+    <div class="container">
+        <div class="col-lg-12">
+            <h6 class="coupon__link"><span class="icon_tag_alt"></span> <a
+                    href="/product"><u>상품목록으로 돌아가기</u></a></h6>
+        </div>
+
+
+        <div class="addressInfo_button_div">
+
+            <button class="address_btn address_btn_1" onclick="showAdress('1')" style="background-color: #ED0000;">배송정보 직접 입력</button>
+            <button class="address_btn address_btn_2" onclick="showAdress('2')" style="background-color: #CA1515;" >사용자 정보 주소록 가져오기</button>
+        </div>
+
+
+        <div class="addressInfo_div">
+
+            <div class="addressInfo_input_div_wrap">
+
+
+                <div class="addressInfo_input_div addressInfo_input_div_1" style="display: block">
+                    <div class="row">
+
+                        <div class="col-lg-8">
+                            <form action="insertOrder" method="POST" class="checkout__form" id="form" name="form">
+                                <div class="checkout__form__input">
+
+                                    <h5 th:text="'주문자 :  '+ ${list?.mName} + ' 님'"></h5>
+                                    <input type="hidden" name="mId" th:value="${session.member?.mId}">
+                                    <input type="hidden" name="pdCode" th:value="${list?.pdCode}">
+                                    <p>이름 <span>*</span></p>
+                                    <input type="text" name="orName" placeholder="이름을 입력하세요" maxlength=5>
+                                    <p>이메일 <span>*</span></p>
+                                    <input type="email" name="orEmail" placeholder="이메일을 입력하세요">
+                                    <p>전화번호 <span>*</span></p>
+                                    <input type="text" name="orPhone" placeholder="전화번호를 입력하세요">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <p>배송지 주소 <span>*</span></p>
+                                        <input type="text" id="sample6_postcode" placeholder="우편번호를 입력하세요" name="addr1">
+                                        <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+                                        <input type="text" id="sample6_address" placeholder="주소를 입력하세요"
+                                               name="addr2"><br>
+                                        <input type="text" id="sample6_detailAddress" placeholder="상세주소를 입력하세요"
+                                               name="addr3"></td>
+                                    </div>
+                                </div>
+
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div  class="checkout__order">
+                                <h5>주문 상품</h5>
+                                <div class="checkout__order__product">
+
+
+                                    <ul>
+                                        <li>
+                                            <span class="top__text">제품 정보 </span><span class="top__text" ></span>
+                                            <span class="top__text__right">가격</span>
+                                        </li>
+                                    </ul>
+
+                                    <ul>
+                                        <li>
+                                            </br>
+                                            <span th:text="${list?.pdName}" class="top__text__left"></span>
+                                        </li>
+                                    </ul>
+                                            </br>
+                                    <ul>
+                                    <li><img style = "width:240px; height:200px;" th:src="@{/upload/{aa}(aa=${list?.pdImage1})}">
+                                        <span data-th-text="${#numbers.formatInteger(list?.pdPrice, 3, 'COMMA') + '원'}" style ="margin-top:80px;">
+
+                                        </span>
+                                    </li>
+                                    </ul>
+
+                                </div>
+                                <input type="hidden"  id="pdQty" th:value="${list?.pdQty}" size="5"  style = "height:30px;">
+                                <small>남은 수량: [[${list?.pdQty}]] 개</small>
+                                <div class="checkout__order__total">
+                                    <ul>
+                                        구매수량 : <input type=hidden  id="pdPrice1"name="pdPrice" th:value="${list?.pdPrice}">
+                                        <input type="text"  id="orQty1" name="orQty" value="1" size="5" onchange="change();" style = "height:30px;" readonly>
+
+                                        <input type="button" id = "Pbtn"
+                                               style="background-color : #CA1515; border : none; color : white; line-height:30px;"
+                                               value=" + " onclick="add();">
+                                        <input type="button"
+                                               style="background-color : #CA1515; border : none; color : white; line-height:30px;"
+                                               value=" - " onclick="del();"><br>
+
+
+                                        결제금액 : <input type="text" name="orPrice" size="11" readonly style = "height: 30px; padding:5px;"> 원
+                                    </ul>
+                                </div>
+                                <div class="checkout__order__widget">
+                                    개인정보 수집 및 이용 동의(필수)
+                                    <input type="checkbox" id="checkAgree1">
+                                    <span class="checkmark"></span>
+
+
+                                    <p> 1. 수집목적</p>
+                                    <p>판매자와 구매자의 거래의 원활한 진행, 본인의사의 확인, 고객 상담 및 불만처리, 상품과 경품 배송을 위한 배송지 확인 등</p>
+                                    <p>2. 수집 항목</p>
+                                    <p>구매자 정보: 성명, 전화번호, ID, 휴대전화 번호, 메일주소, 상품 구매정보</p>
+                                    <p>수령자 정보: 성명, 전화번호, 휴대전화 번호, 배송지 주소</p>
+                                    <p>3. 보유기간</p>
+                                    <p>개인정보 수집 및 이용목적 달성 시 및 관련 법령에 따른 기간까지 보관</p>
+
+                                </div>
+                                <button id="iamportPayment1" class="site-btn" type="button" style = "height: 45px; padding:5px;">결제테스트</button></form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+<!--                        사용자 정보 주소록 2222 div-->
+                <div class="addressInfo_input_div addressInfo_input_div_2" >
+                    <div class="row">
+                        <div class="col-lg-8"  >
+                            <form action="insertOrder2" method="POST" class="checkout__form" id="form2" name="form2">
+                                <div class="checkout__form__input" >
+
+                                    <h5 th:text="'주문자 :  '+ ${list?.mName} + ' 님'"></h5>
+                                    <input type="hidden" name="pdCode" th:value="${list?.pdCode}" >
+                                    <input type="hidden" name="mId" th:value="${session.member?.mId}">
+                                    <p>이름 <span>*</span></p>
+                                    <input type="text" name="orName" th:value="${list?.mName}" style="color: #000000;font-weight : bold;" maxlength=5>
+                                    <p>이메일 <span>*</span></p>
+                                    <input type="email" name="orEmail" th:value="${list?.mEmail}" style="color: #000000;font-weight : bold;">
+                                    <p>전화번호 <span>*</span></p>
+                                    <input type="text" name="orPhone" th:value="${list?.mPhone}" style="color: #000000;font-weight : bold;">
+
+                                    <p>배송지 주소 <span>*</span></p>
+                                    <input type="text" id="sample6_postcode1" placeholder="우편번호를 입력하세요" name="orAddr" th:value = "${list?.mAddr}" style="color: #000000;font-weight : bold;">
+                                </div>
+                        </div>
+
+                          <div class="col-lg-4">
+                            <div  class="checkout__order">
+                                <h5>주문 상품</h5>
+                                <div class="checkout__order__product">
+
+                                    <ul>
+                                        <li>
+                                            <span class="top__text">제품 정보</span>
+                                            <span class="top__text__right">가격</span>
+                                        </li>
+                                    </ul>
+
+                                    <ul>
+                                        <li>
+                                            </br>
+                                            <span th:text="${list?.pdName}" class="top__text__left"></span>
+                                        </li>
+                                    </ul>
+                                    </br>
+                                    <ul>
+                                        <li><img style = "width:240px; height:200px;" th:src="@{/upload/{aa}(aa=${list?.pdImage1})}">
+                                            <span data-th-text="${#numbers.formatInteger(list?.pdPrice, 3, 'COMMA') + '원'}" style ="margin-top:80px;">
+
+                                        </span>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                                <small>남은 수량: [[${list?.pdQty}]] 개</small>
+                                <div class="checkout__order__total">
+                                    <ul>
+                                        수량 : <input type=hidden id="pdPrice2" name="pdPrice" th:value="${list?.pdPrice}" >
+                                        <input type="text" id="orQty2"name="orQty" value="1" size="5" onchange="change2();" style = "height:30px;" readonly>
+                                        <input type="button"
+                                               style="background-color : #CA1515; border : none; color : white; line-height:20px;"
+                                               value=" + " onclick="add2();">
+                                        <input type="button"
+                                               style="background-color : #CA1515; border : none; color : white; line-height:20px;"
+                                               value=" - " onclick="del2();"><br>
+
+                                        결제금액 : <input type="text" name="orPrice" size="11" readonly style = "height: 30px; padding:5px;"> 원
+                                    </ul>
+                                </div>
+                                <div class="checkout__order__widget">
+                                    사이트 이용 약관 동의(필수)
+                                    <input type="checkbox" id="checkAgree2">
+                                    <span class="checkmark"></span>
+
+                                    <p>본인은 만 14세 이상이며, 주문 내용을 확인하였습니다.</p>
+                                    <p>(주)사이트 이름 는 통신판매중개자로 거래 당사자가 아니므로,
+                                        판매자가 등록한 상품정보 및 거래 등에 대해 책임을 지지 않습니다.</p>
+                                    <p>(단, ㈜사이트 이름 가 판매자로 등록 판매한 상품은 판매자로서 책임을 부담합니다).</p>
+                                    <button id="iamportPayment2" class="site-btn" type="button" style = "height: 45px; padding:5px;">결제테스트</button>
+                                </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    </div>
+ </section>
+
+<!-- Js Plugins -->
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery-ui.min.js"></script>
+<script src="/js/mixitup.min.js"></script>
+<script src="/js/jquery.countdown.min.js"></script>
+<script src="/js/jquery.slicknav.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/jquery.nicescroll.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/KG.js"></script>
+<!--<script src="/js/checkbox.js"></script>-->
+<script src="/js/memberInfoclick.js"></script>
+<script src="/js/addr.js"></script>
+<script src="/js/calculation.js"></script>
+<!-- jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<!-- iamport.payment.js -->
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+   
+</content>
+</body>
+
+
+<!--결제 자바스크립트-->
+<script th:inline="javascript">
+
+  /*<![CDATA[*/
+        let pdName = /*[[ ${list?.pdName} ]]*/;
+        /*]]*/
+
+
+
+const checkAgree1 = document.querySelector("#checkAgree1");
+const checkAgree2 = document.querySelector("#checkAgree2");
+
+var form = document.getElementById("form");
+var orName = document.getElementById("orName");
+var orEmail = document.getElementById("orEmail");
+var orPhone = document.getElementById("orPhone");
+var sample6_postcode = document.getElementById("sample6_postcode");
+var sample6_detailAddress = document.getElementById("sample6_detailAddress");
+var orAddr = document.getElementById("orAddr");
+
+
+
+$(document).ready(function(){
+	$("#iamportPayment1").click(function(){
+	if(checkAgree1.checked == false){
+	alert('개인정보 수집 및 이용 약관에 동의해주세요');
+	}else if(!form.orName.value || !form.orPhone.value || !form.orEmail.value || !form.sample6_postcode.value || !form.sample6_detailAddress.value){
+               alert('필수 입력사항을 입력해주세요 (이름, 이메일, 전화번호, 주소)');
+      	}else{
+	payment();
+	}
+
+    });
+})
+
+
+
+function payment(){
+const data = {
+number : $("input[name='orNum']"),
+name : $("input[name='orName']"),
+amount : Number($("#orPrice").val()),
+totalPrice : $("#orPrice").val()
+}
+payment(data);
+}
+
+function payment(data) {
+    IMP.init('imp61297047');
+    IMP.request_pay({// param
+        pg: "kakaopay.TC0ONETIME",
+        pay_method: "card",
+        merchant_uid: 'cart_' + new Date().getTime(),
+        name: pdName,
+        amount: 100,
+        buyer_email : "testiamport@naver.com",
+        buyer_name : "주문자",
+
+    }, function (rsp) {
+        if (rsp.success) {
+            location.href="orderConfirm?orNum=${confirm.orNum}";
+
+            form.submit()
+        } else {
+            alert("결제를 실패하였습니다. / 메세지(" + rsp.error_msg + ")");
+        }
+    });
+}
+
+
+
+
+$(document).ready(function(){
+	$("#iamportPayment2").click(function(){
+	if(checkAgree2.checked == false){
+	alert('개인정보 수집 및 이용 약관에 동의해주세요');
+	}else if(!form2.orName.value || !form2.orPhone.value || !form2.orEmail.value || !form2.orAddr.value){
+               alert('필수 입력사항을 입력해주세요 (이름, 이메일, 전화번호, 주소)');
+      	}else{
+	payment2();
+	}
+
+    });
+})
+
+function payment2(){
+const data = {
+number : $("input[name='orNum']"),
+name : $("input[name='orName']"),
+amount : Number($("#orPrice").val()),
+totalPrice : $("#orPrice").val()
+}
+payment2(data);
+}
+
+function payment2(data) {
+    IMP.init('imp61297047');
+    IMP.request_pay({// param
+        pg: "kakaopay.TC0ONETIME",
+        pay_method: "card",
+        merchant_uid: 'cart_' + new Date().getTime(),
+        name: pdName,
+        amount: 100,
+        buyer_email : "testiamport@naver.com",
+        buyer_name : "주문자",
+
+    }, function (rsp) {
+        if (rsp.success) {
+//            location.href="OrderListForm";
+            form2.submit()
+        } else {
+            alert("결제를 실패하였습니다. / 메세지(" + rsp.error_msg + ")");
+        }
+    });
+}
+
+</script>
+
+
+
+
+
+
+
+
+</html>
+

@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iwgh.gain.dao.ProductDAO">
+	<!-- 상품등록 -->
+	<insert id="pWrite1"
+			parameterType="com.iwgh.gain.dto.ProductDTO">
+		INSERT INTO PRODUCT
+		VALUES('PD'||LPAD(PDCODE_SEQ.NEXTVAL,4,0),#{pdName},#{pdPrice},#{pdQty},#{pdDetail},0,0,#{pdCategory})
+	</insert>
+
+	<select id="pdCode" resultType="String">
+		SELECT MAX(PDCODE) FROM PRODUCT
+	</select>
+
+	<insert id="pWrite2"
+			parameterType="com.iwgh.gain.dto.ProductDTO">
+		INSERT INTO PRODUCTIMAGE
+		VALUES(#{pdCode},#{pdImage1},#{pdImage2},#{pdImage3},#{pdImage4},#{pdImage5},#{pdModel})
+
+	</insert>
+	<!-- 상품목록 -->
+	<select id="pCount" resultType="int">
+		SELECT COUNT(*) FROM PRODUCT WHERE PDCATEGORY != '인테리어'
+	</select>
+
+	<select id="ProductList"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT * FROM PRODUCTLIST WHERE RN BETWEEN #{startRow} AND
+		#{endRow}
+	</select>
+
+	<select id="p20Count" resultType="int">
+		SELECT COUNT(*) FROM PRODUCT
+	</select>
+
+	<select id="ProductList2"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT * FROM PRODUCTLIST20 WHERE RN BETWEEN #{startRow} AND
+		#{endRow}
+	</select>
+	<!-- 상품상세보기 -->
+	<select id="pView" parameterType="String"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT P.*, I.*
+		FROM PRODUCT P, PRODUCTIMAGE I
+		WHERE P.PDCODE = #{pdCode}  AND I.PDCODE = #{pdCode}
+	</select>
+	<!-- 매거진랙 목록 -->
+	<select id="p1Count" resultType="int">
+		SELECT COUNT(*) FROM PRODUCTLIST WHERE PDCATEGORY= '매거진랙'
+	</select>
+
+	<select id="ProductMagazine"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT
+		* FROM PRODUCTLIST1 WHERE  RN BETWEEN #{startRow} AND
+		#{endRow}
+
+	</select>
+	<!-- 장식장 목록 -->
+	<select id="p2Count" resultType="int">
+		SELECT COUNT(*) FROM PRODUCTLIST WHERE PDCATEGORY= '장식장'
+	</select>
+
+	<select id="ProductCabinet"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT
+		* FROM PRODUCTLIST2 WHERE  RN BETWEEN #{startRow} AND
+		#{endRow}
+
+	</select>
+	<!-- 책장 목록 -->
+	<select id="p3Count" resultType="int">
+		SELECT COUNT(*) FROM PRODUCTLIST WHERE PDCATEGORY= '책장'
+	</select>
+
+	<select id="ProductBookshelf"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT
+		* FROM PRODUCTLIST3 WHERE  RN BETWEEN #{startRow} AND
+		#{endRow}
+
+	</select>
+	<!-- 침대 목록 -->
+	<select id="p4Count" resultType="int">
+		SELECT COUNT(*) FROM PRODUCTLIST WHERE PDCATEGORY= '침대'
+	</select>
+
+	<select id="ProductBed"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT
+		* FROM PRODUCTLIST4 WHERE  RN BETWEEN #{startRow} AND
+		#{endRow}
+
+	</select>
+	<!-- 일반소파 목록 -->
+	<select id="p5Count" resultType="int">
+		SELECT COUNT(*) FROM PRODUCTLIST WHERE PDCATEGORY= '일반소파'
+	</select>
+
+	<select id="ProductSofa"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT
+		* FROM PRODUCTLIST5 WHERE  RN BETWEEN #{startRow} AND
+		#{endRow}
+
+	</select>
+	<!-- 좌식소파 목록 -->
+	<select id="p6Count" resultType="int">
+		SELECT COUNT(*) FROM PRODUCTLIST WHERE PDCATEGORY= '좌식소파'
+	</select>
+
+	<select id="ProductSofa2"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT
+		* FROM PRODUCTLIST6 WHERE  RN BETWEEN #{startRow} AND
+		#{endRow}
+
+	</select>
+	<!-- 소파베드 목록 -->
+	<select id="p7Count" resultType="int">
+		SELECT COUNT(*) FROM PRODUCTLIST WHERE PDCATEGORY= '소파베드'
+	</select>
+
+	<select id="ProductSofa3"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT
+		* FROM PRODUCTLIST7 WHERE  RN BETWEEN #{startRow} AND
+		#{endRow}
+
+	</select>
+	<!-- 소파스툴 목록 -->
+	<select id="p8Count" resultType="int">
+		SELECT COUNT(*) FROM PRODUCTLIST WHERE PDCATEGORY= '소파스툴'
+	</select>
+
+	<select id="ProductSofa4"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT
+		* FROM PRODUCTLIST8 WHERE  RN BETWEEN #{startRow} AND
+		#{endRow}
+
+	</select>
+	<!-- 리클라이너 목록 -->
+	<select id="p9Count" resultType="int">
+		SELECT COUNT(*) FROM PRODUCTLIST WHERE PDCATEGORY= '리클라이너'
+	</select>
+
+	<select id="ProductRecliner"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT
+		* FROM PRODUCTLIST9 WHERE  RN BETWEEN #{startRow} AND
+		#{endRow}
+
+	</select>
+	<!-- 사이드테이블 목록 -->
+	<select id="p10Count" resultType="int">
+		SELECT COUNT(*) FROM PRODUCTLIST WHERE PDCATEGORY= '사이드테이블'
+	</select>
+
+	<select id="ProductTable1"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT
+		* FROM PRODUCTLIST10 WHERE  RN BETWEEN #{startRow} AND
+		#{endRow}
+
+	</select>
+	<!-- 사이드테이블 목록 -->
+	<select id="p11Count" resultType="int">
+		SELECT COUNT(*) FROM PRODUCTLIST WHERE PDCATEGORY= '좌식테이블'
+	</select>
+
+	<select id="ProductTable2"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT
+		* FROM PRODUCTLIST11 WHERE  RN BETWEEN #{startRow} AND
+		#{endRow}
+
+	</select>
+	<!-- 사이드테이블 목록 -->
+	<select id="p12Count" resultType="int">
+		SELECT COUNT(*) FROM PRODUCTLIST WHERE PDCATEGORY= '소파테이블'
+	</select>
+
+	<select id="ProductTable3"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT
+		* FROM PRODUCTLIST12 WHERE  RN BETWEEN #{startRow} AND
+		#{endRow}
+
+	</select>
+	<!-- 사이드테이블 목록 -->
+	<select id="p13Count" resultType="int">
+		SELECT COUNT(*) FROM PRODUCTLIST WHERE PDCATEGORY= '식탁'
+	</select>
+
+	<select id="ProductTable4"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT
+		* FROM PRODUCTLIST13 WHERE  RN BETWEEN #{startRow} AND
+		#{endRow}
+
+	</select>
+	<!-- 사이드테이블 목록 -->
+	<select id="p14Count" resultType="int">
+		SELECT COUNT(*) FROM PRODUCTLIST WHERE PDCATEGORY= '책상'
+	</select>
+
+	<select id="ProductTable5"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT
+		* FROM PRODUCTLIST14 WHERE  RN BETWEEN #{startRow} AND
+		#{endRow}
+
+	</select>
+	<!-- 흔들의자 목록 -->
+	<select id="p15Count" resultType="int">
+		SELECT COUNT(*) FROM PRODUCTLIST WHERE PDCATEGORY= '흔들의자'
+	</select>
+
+	<select id="ProductChair1"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT
+		* FROM PRODUCTLIST15 WHERE  RN BETWEEN #{startRow} AND
+		#{endRow}
+
+	</select>
+	<!-- 게이밍의자 목록 -->
+	<select id="p16Count" resultType="int">
+		SELECT COUNT(*) FROM PRODUCTLIST WHERE PDCATEGORY= '게이밍의자'
+	</select>
+
+	<select id="ProductChair2"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT
+		* FROM PRODUCTLIST16 WHERE  RN BETWEEN #{startRow} AND
+		#{endRow}
+
+	</select>
+	<!-- 사무용의자 목록 -->
+	<select id="p17Count" resultType="int">
+		SELECT COUNT(*) FROM PRODUCTLIST WHERE PDCATEGORY= '사무용의자'
+	</select>
+
+	<select id="ProductChair3"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT
+		* FROM PRODUCTLIST17 WHERE  RN BETWEEN #{startRow} AND
+		#{endRow}
+
+	</select>
+	<!-- 인테리어의자 목록 -->
+	<select id="p18Count" resultType="int">
+		SELECT COUNT(*) FROM PRODUCTLIST WHERE PDCATEGORY= '인테리어의자'
+	</select>
+
+	<select id="ProductChair4"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT
+		* FROM PRODUCTLIST18 WHERE  RN BETWEEN #{startRow} AND
+		#{endRow}
+
+	</select>
+	<!-- 안락의자 목록 -->
+	<select id="p19Count" resultType="int">
+		SELECT COUNT(*) FROM PRODUCTLIST WHERE PDCATEGORY= '안락의자'
+	</select>
+
+	<select id="ProductChair5"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT
+		* FROM PRODUCTLIST19 WHERE  RN BETWEEN #{startRow} AND
+		#{endRow}
+
+	</select>
+	<!-- 인테리어 목록 -->
+	<select id="p21Count" resultType="int">
+		SELECT COUNT(*) FROM PRODUCTLIST20 WHERE PDCATEGORY= '인테리어'
+	</select>
+
+	<select id="ProductInterior"
+			resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT
+		* FROM PRODUCTLIST21 WHERE  RN BETWEEN #{startRow} AND
+		#{endRow}
+
+	</select>
+	<delete id="ProductDelete1" parameterType="String">
+
+		DELETE
+		FROM PRODUCTIMAGE
+		WHERE PDCODE = #{pdCode}
+
+	</delete>
+
+	<delete id="ProductDelete2" parameterType="String">
+		DELETE
+		FROM REVIEW
+		WHERE PDCODE = #{pdCode}
+	</delete>
+	<delete id="ProductDelete3" parameterType="String">
+		DELETE
+		FROM WISHLIST
+		WHERE PDCODE = #{pdCode}
+	</delete>
+	<delete id="ProductDelete4" parameterType="String">
+		DELETE
+		FROM PRODUCT
+		WHERE PDCODE = #{pdCode}
+	</delete>
+
+	<update id="ProductModify" parameterType="com.iwgh.gain.dto.ProductDTO">
+		UPDATE PRODUCT SET PDNAME=#{pdName}, PDPRICE=#{pdPrice},
+		PDQTY=#{pdQty},PDDETAIL=#{pdDetail},PDCOUNT=#{pdCount},PDSTARPOINT=#{pdStarpoint},PDCATEGORY=#{pdCategory}
+
+		WHERE PDCODE=#{pdCode}
+	</update>
+
+	<select id="ProductSearch" parameterType="String" resultType="com.iwgh.gain.dto.ProductDTO">
+		SELECT
+		* FROM PRODUCTLIST20 WHERE PDNAME like '%'||#{pdName}||'%'
+	</select>
+</mapper>

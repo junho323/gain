@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 이 아래에 있는 기본양식이 있어야 mapper로 인식한다.-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iwgh.gain.dao.OrderDAO">
+
+    <insert id="insertOrder" parameterType="com.iwgh.gain.dto.OrderDTO">
+        INSERT INTO ORDERS VALUES('ON'||LPAD(ORDERS_SEQ.NEXTVAL,4,0),#{mId},#{pdCode},#{orName},#{orEmail},#{orPhone},#{orAddr},'결제완료',SYSDATE,#{orQty},#{orPrice})
+    </insert>
+
+
+    <insert id="insertOrder2" parameterType="com.iwgh.gain.dto.OrderDTO">
+        INSERT INTO ORDERS VALUES('ON'||LPAD(ORDERS_SEQ.NEXTVAL,4,0),#{mId},#{pdCode},#{orName},#{orEmail},#{orPhone},#{orAddr},SYSDATE,#{orQty},#{orPrice})
+    </insert>
+
+
+    <insert id="insertOrderQnA" parameterType="com.iwgh.gain.dto.OrderDTO">
+        INSERT INTO ORDERQNA VALUES('QA'||LPAD(ORDERQNA_SEQ.NEXTVAL,4,0),#{mId}, #{qaType},#{qaName},#{qaContent},#{orNum},SYSDATE, #{qaImage1,jdbcType=VARCHAR},#{qaImage2,jdbcType=VARCHAR},#{qaImage3,jdbcType=VARCHAR})
+    </insert>
+
+
+
+
+
+    <select id="oCount" resultType="int">
+        SELECT COUNT(*) FROM ORDERS
+    </select>
+
+<!--    <select id="OrderList" parameterType="com.iwgh.gain.dto.PageDTO" resultType="com.iwgh.gain.dto.OrderDTO">-->
+<!--&lt;!&ndash;        SELECT P.PDNAME,O.ORDATE, O.ORNUM, O.ORPRICE, O.ORSTATE,O.MID&ndash;&gt;-->
+<!--&lt;!&ndash;        FROM  PRODUCT P, OLIST O&ndash;&gt;-->
+<!--&lt;!&ndash;        WHERE RN BETWEEN #{startRow} AND #{endRow}&ndash;&gt;-->
+<!--        -->
+<!--    </select>-->
+
+
+    <select id="OrderList"   resultType = "com.iwgh.gain.dto.OrderDTO">
+<!--        SELECT P.PDNAME, O.ORDATE, O.ORNUM, O.ORPRICE,O.ORSTATE,O.MID-->
+<!--        FROM PRODUCT P, ORDERS O-->
+<!--        WHERE O.MID = #{mId}-->
+
+
+<!--        SELECT PI.PDIMAGE1,P.PDNAME, O.ORDATE, O.ORNUM, O.ORPRICE,O.MID,OS.ORNUM AS ORSTATE-->
+<!--        FROM PRODUCT P,PRODUCTIMAGE PI, ORDERS O LEFT OUTER JOIN ORDERSTATE OS-->
+<!--        ON O.ORNUM = OS.ORNUM-->
+<!--        WHERE P.PDCODE = O.PDCODE AND P.PDCODE = PI.PDCODE  AND O.MID = #{mId}-->
+<!--        ORDER BY O.ORNUM DESC-->
+
+        SELECT PI.PDIMAGE1,P.PDNAME, O.ORDATE, O.ORNUM,O.ORQTY, O.ORPRICE,O.MID,OS.OSSTATE,OS.ORNUM AS ORSTATE
+        FROM PRODUCT P,PRODUCTIMAGE PI,
+        ORDERS O LEFT OUTER JOIN ORDERSTATE OS ON O.ORNUM = OS.ORNUM
+        WHERE P.PDCODE = O.PDCODE AND P.PDCODE = PI.PDCODE  AND O.MID = #{mId}
+        ORDER BY O.ORNUM DESC
+
+
+    </select>
+
+
+<!--    관리자 주문 목록-->
+    <select id="adminOrderList"   resultType = "com.iwgh.gain.dto.OrderDTO">
+        <!--        SELECT P.PDNAME, O.ORDATE, O.ORNUM, O.ORPRICE,O.ORSTATE,O.MID-->
+        <!--        FROM PRODUCT P, ORDERS O-->
+        <!--        WHERE O.MID = #{mId}-->
+
+
+
+
+        SELECT PI.PDIMAGE1,P.PDNAME, O.ORDATE, O.ORNUM,O.ORQTY, O.ORPRICE,O.MID,OS.OSSTATE,OS.ORNUM AS ORSTATE
+        FROM PRODUCT P,PRODUCTIMAGE PI,
+        ORDERS O LEFT OUTER JOIN ORDERSTATE OS ON O.ORNUM = OS.ORNUM
+        WHERE P.PDCODE = O.PDCODE AND P.PDCODE = PI.PDCODE
+        ORDER BY O.ORNUM DESC
+
+
+    </select>
+
+
+
+    <select id="orderView" parameterType ="String" resultType="com.iwgh.gain.dto.OrderDTO">
+<!--        SELECT O.ORNUM ,O.MID, O.ORDATE, O.ORPRICE, O.ORADDR, P.PDNAME,O.PDCODE, P.PDCODE,OS.OSSTATE,OS.ORNUM,OS.ORNUM, PD.PDIMAGE1, PD.PDCODE-->
+<!--        FROM  PRODUCT P, PRODUCTIMAGE PD,-->
+<!--        ORDERS O LEFT OUTER JOIN ORDERSTATE OS ON O.ORNUM = OS.ORNUM-->
+<!--        WHERE O.ORNUM=#{orNum} AND P.PDCODE = O.PDCODE AND PD.PDCODE = P.PDCODE-->
+
+        SELECT O.ORNUM ,O.MID, O.ORDATE, O.ORPRICE, O.ORADDR, P.PDNAME,O.PDCODE, P.PDCODE,OS.OSSTATE,OS.ORNUM AS ORSTATE,OS.ORNUM, PD.PDIMAGE1, PD.PDCODE
+        FROM  PRODUCT P, PRODUCTIMAGE PD,
+        ORDERS O LEFT OUTER JOIN ORDERSTATE OS ON O.ORNUM = OS.ORNUM
+        WHERE O.ORNUM=#{orNum} AND P.PDCODE = O.PDCODE AND PD.PDCODE = P.PDCODE
+
+    </select>
+
+
+    <select id="list" parameterType ="String" resultType="com.iwgh.gain.dto.OrderDTO">
+
+
+        SELECT DISTINCT P.PDPRICE, P.PDNAME,P.PDQTY,M.MID,M.MNAME,M.MEMAIL,M.MPHONE,M.MADDR,PD.PDIMAGE1, P.PDCODE
+        FROM PRODUCT P, MEMBER M, PRODUCTIMAGE PD
+        WHERE P.PDCODE =#{pdCode} AND M.MID = #{mId} AND PD.PDCODE = #{pdCode}
+
+        <!--        SELECT DISTINCT P.PDPRICE, P.PDNAME,P.PDCODE-->
+<!--        FROM PRODUCT P-->
+<!--        WHERE P.PDCODE = #{pdCode}-->
+    </select>
+
+    <select id = "orderConfirm" parameterType ="String" resultType="com.iwgh.gain.dto.OrderDTO">
+        SELECT * FROM ORDERS WHERE ORNUM=#{orNum}
+    </select>
+
+
+<!--    <select id = "memberView" parameterType = "String" resultType = "com.iwgh.gain.dto.OrderDTO">-->
+<!--        SELECT * FROM MEMBER WHERE MID = 'achieve97'-->
+<!--    </select>-->
+
+
+    <insert id="insertCancel" parameterType="com.iwgh.gain.dto.OrderDTO">
+        INSERT INTO ORDERSTATE VALUES('OS'||LPAD(ORDERSTATE_SEQ.NEXTVAL,4,0),#{mId},#{orNum},#{orPrice},SYSDATE,#{osReason},#{osState})
+    </insert>
+
+
+    <select id = "cancelList" parameterType ="String" resultType="com.iwgh.gain.dto.OrderDTO">
+        SELECT * FROM ORDERSTATE WHERE MID = #{mId} ORDER BY OSNUM DESC
+    </select>
+
+    <select id = "adminCancelList" parameterType ="String" resultType="com.iwgh.gain.dto.OrderDTO">
+        SELECT * FROM ORDERSTATE WHERE MID IS NOT NULL
+    </select>
+
+    <delete id="orderDelete" parameterType="com.iwgh.gain.dto.OrderDTO">
+        DELETE FROM ORDERS WHERE ORNUM = #{orNum}
+    </delete>
+
+    <select id="orderView1" parameterType ="String" resultType="com.iwgh.gain.dto.OrderDTO">
+        SELECT O.ORNUM ,O.MID, O.ORDATE, O.ORPRICE, O.ORADDR, P.PDNAME,O.PDCODE, P.PDCODE, PD.PDIMAGE1, PD.PDCODE
+        FROM ORDERS O, PRODUCT P, PRODUCTIMAGE PD
+        WHERE ORNUM=#{orNum} AND P.PDCODE = O.PDCODE AND PD.PDCODE = P.PDCODE
+
+    </select>
+
+    <select id="QnAView" parameterType ="String" resultType="com.iwgh.gain.dto.OrderDTO">
+        SELECT Q.QAIMAGE1,Q.QAIMAGE2,Q.QAIMAGE3,Q.QANAME,Q.QACONTENT,R.RPANSWER,R.RPDATE,Q.QANUM,Q.QADATE
+        FROM ORDERQNA Q LEFT OUTER JOIN QNAREPLY R
+        ON R.QANUM = Q.QANUM WHERE Q.QANUM = #{qaNum}
+    </select>
+
+
+
+
+    <select id = "orderQnAList" parameterType = "String" resultType = "com.iwgh.gain.dto.OrderDTO">
+        SELECT Q.QANUM, Q.MID, Q.QATYPE, Q.QANAME, Q.QACONTENT, Q.ORNUM, Q.QADATE,
+        Q.QAIMAGE1, Q.QAIMAGE2, Q.QAIMAGE3,R.RPDATE,R.RPANSWER
+        FROM ORDERQNA Q LEFT OUTER JOIN QNAREPLY R
+        ON R.QANUM = Q.QANUM WHERE MID = #{mId} ORDER BY QANUM DESC
+    </select>
+
+    <select id = "orderQnAView" parameterType = "String" resultType = "com.iwgh.gain.dto.OrderDTO">
+        SELECT O.ORNUM, O.PDCODE,P.PDCODE,P.PDNAME,O.ORDATE,O.ORQTY,O.ORPRICE
+        FROM ORDERS O, PRODUCT P
+        WHERE MID = #{mId} AND P.PDCODE = O.PDCODE
+    </select>
+
+
+    <insert id="orderInsertReply" parameterType="com.iwgh.gain.dto.OrderDTO">
+        INSERT INTO QNAREPLY VALUES(#{qaNum},SYSDATE,#{rpAnswer})
+    </insert>
+
+    <select id = "adminQnAList" parameterType ="String" resultType="com.iwgh.gain.dto.OrderDTO">
+        SELECT Q.QANUM, Q.MID, Q.QATYPE, Q.QANAME, Q.QACONTENT, Q.ORNUM, Q.QADATE,
+        Q.QAIMAGE1, Q.QAIMAGE2, Q.QAIMAGE3,R.RPDATE,R.RPANSWER
+        FROM ORDERQNA Q LEFT OUTER JOIN QNAREPLY R
+        ON R.QANUM = Q.QANUM  ORDER BY QANUM DESC
+    </select>
+
+
+
+    <delete id="orderQnADelete" parameterType="com.iwgh.gain.dto.OrderDTO">
+        DELETE FROM ORDERQNA WHERE QANUM = #{qaNum}
+    </delete>
+
+    <select id = "qnaUpdateInfo" parameterType ="String" resultType="com.iwgh.gain.dto.OrderDTO">
+       SELECT * FROM ORDERQNA WHERE ORNUM = #{orNum} AND QANUM = #{qaNum}
+    </select>
+
+
+
+    <update id="insertOrderState" parameterType="com.iwgh.gain.dto.OrderDTO">
+        INSERT INTO ORDERSTATE VALUES ('OS'||LPAD(ORDERSTATE_SEQ.NEXTVAL,4,0),'',#{orNum},'',SYSDATE,'',#{osState})
+    </update>
+
+
+    <update id="orderStateModify" parameterType="com.iwgh.gain.dto.OrderDTO">
+        UPDATE ORDERSTATE SET OSSTATE = #{osState} WHERE ORNUM = #{orNum}
+    </update>
+
+
+
+<!--&lt;!&ndash;    INSERT INTO ORDERQNA VALUES('QA'||LPAD(ORDERQNA_SEQ.NEXTVAL,4,0),#{mId}, #{qaType},#{qaName},#{qaContent},#{orNum},SYSDATE,&ndash;&gt;-->
+<!--&lt;!&ndash;    #{qaImage1,jdbcType=VARCHAR},#{qaImage2,jdbcType=VARCHAR},#{qaImage3,jdbcType=VARCHAR})&ndash;&gt;-->
+
+
+</mapper>
